@@ -1,0 +1,12 @@
+citHeader("To cite package archetypes in publications use:")
+
+citEntry(entry="TechReport",
+	title="{Spider-Man, the Child and the Trickster} -- Archetypal Analsis in {R}",
+	author=personList(person(first="Manuel J. A.", last="Eugster"),
+		person(first="Friedrich", last="Leisch")),
+	year="2008",
+	number="44",
+	url="http://epub.ub.uni-muenchen.de/8270/",
+	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch. Spider-Man,",
+		"the Child and the Trickster -- Archetypal Analysis in R.",
+		"Technical Report 44, LMU München, 2008."))

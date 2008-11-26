@@ -1,0 +1,964 @@
+\documentclass[nojss]{jss}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{float}
+
+\renewcommand{\caption}[1]{}
+
+\author{Manuel J. A. Eugster\\{\small
+		Ludwig-Maximilians-Universit{\"a}t M{\"u}nchen} \And
+        Friedrich Leisch\\{\small Ludwig-Maximilians-Universit{\"a}t
+		M{\"u}nchen}}
+
+\title{{\it Spider-Man, the Child, and the Trickster$^{1}$} --\\
+	Archetypal Analysis in \proglang{R}}
+
+\Plainauthor{Manuel J. A. Eugster, Friedrich Leisch}
+
+\Plaintitle{Spider-Man, the Child and the Trickster -- Archetypal
+	Analsis in R}
+
+\Shorttitle{Archetypal Analysis in R}
+
+\Keywords{archetypal analysis, convex hull, \proglang{R}}
+
+\Plainkeywords{archetypal analysis, convex hull, R}
+
+\Abstract{
+\begin{center}
+  This article is a (slightly) modified version of
+  \cite{Eugster+Leisch@2008}.
+\end{center}
+\bigskip
+
+Archetypal analysis has the aim to represent observations in a
+multivariate data set as convex combinations of extremal points. This
+approach was introduced by \citet{Cutler+Breiman@1994}; they defined
+the concrete problem, laid out the theoretical foundations and
+presented an algorithm written in Fortran, which is available on
+request. In this paper we present the R package \pkg{archetypes} which
+is available on the Comprehensive R Archive Network. The package
+provides an implementation of the archetypal analysis algorithm within
+R and different exploratory tools to analyze the algorithm during its
+execution and its final result. The application of the package is
+demonstrated on two examples.
+}
+
+\Address{
+  Manuel J. A. Eugster\\
+  Department of Statistics\\
+  Ludwig-Maximilans-Universit{\"a}t M{\"u}nchen\\
+  80539 Munich, Germany\\
+  E-mail: \email{Manuel.Eugster@stat.uni-muenchen.de}\\
+  URL: \url{http://www.statistik.lmu.de/~eugster/}
+}
+
+
+%%\usepackage{Sweave} %% already provided by jss.cls
+%%\VignetteIndexEntry{Spider-Man, the Child, and the Trickster -- Archetypal Analysis in R}
+%%\VignetteDepends{archetypes}
+%%\VignetteKeywords{archetypal analysis, convex hull, R}
+%%\VignettePackage{archetypes}
+
+
+\SweaveOpts{eps=FALSE, keep.source=TRUE}
+<<echo=FALSE,print=FALSE,results=HIDE>>=
+options(width=80)
+library(archetypes)
+@ 
+
+
+\begin{document}
+
+\footnotetext[1]{These are examples of archetypes in different
+contexts; see \cite{wikipedia:archetype}.}
+
+
+\section[Introduction]{Introduction\label{intro}}
+
+The \citet{merriam-webster:archetype} defines an archetype as {\it the
+original pattern or model of which all things of the same type are
+representations or copies}. Then, the aim of the archetypal analysis
+is to find ``pure types'', the archetypes, within a set defined in
+a specific context. The concept of archetypes is used in many
+different areas, the set can be defined in terms of literature,
+philosophy, psychology and also statistics. Here, the concrete problem
+is to find a few, not necessarily observed, points (archetypes) in a
+set of multivariate observations such that all the data can be well
+represented as convex combinations of the archetypes. 
+
+In statistics archetypal analysis was first introduced by
+\citet{Cutler+Breiman@1994}. In their paper they laid out the 
+theoretical foundations, defined the concrete problem as a nonlinear
+least squares problem and presented an alternating minimizing algorithm
+to solve it. It has found applications in different areas, with
+recently grown popularity in economics, e.g.,
+\citet{Li+Wang+Louviere+Carson@2003} and
+\citet{Porzio+Ragozini+Vistocco@2006}. In spite of the rising interest
+in this computer-intensive but numerically sensitive method, no
+``easy-to-use'' and freely available software package has been
+developed yet; the only implementation is the original Fortran code by
+\citet{Cutler+Breiman@1994} which is available upon request only. In
+this paper we present the software package \pkg{archetypes} within the
+\proglang{R} statistical environment \citep{R} which provides an
+implementation of the archetypal analysis algorithm. Additionally, the
+package provides exploratory tools to visualize the algorithm during
+the minimization steps and its final result. The newest released
+version of \pkg{archetypes} is always available from the Comprehensive
+R Archive Network at
+\url{http://CRAN.R-project.org/package=archetypes}.
+
+The paper is organized as follows: In Section \ref{algorithm} we
+outline the archetypal analysis with its different conceptual
+parts. We present the theoretical background as far as we need it for
+a sound introduction of our implementation; for a complete explanation
+we refer to the original paper. Section \ref{pkg} demonstrates how to use
+\pkg{archetypes} based on a simple artificial data set, with details about
+numerical problems and the behavior of the algorithm. In Section \ref{body}
+we show a real word example -- the archetypes of human skeletal diameter 
+measurements. Section \ref{outlook} concludes the article with future
+investigations.
+
+
+\section[Archetypal analysis]{Archetypal analysis\label{algorithm}}
+
+Given is an $n \times m$ matrix $X$ representing a multivariate data
+set with $n$ observations and $m$ attributes. For a given $k$ the
+archetypal analysis finds the matrix $Z$ of $k$ $m$-dimensional
+archetypes according to the two fundamentals:
+\begin{enumerate}
+	[label=(\arabic{enumi})]
+
+	\item The data are best approximated by combinations of the
+	archetypes, i.e., they minimize
+	\[
+		\mbox{RSS} = \|X - Z^T * \alpha\|_2
+	\]
+	with $\alpha$, the coefficients of the archetypes, a $k \times n$
+	matrix; the elements are required to be greater equal $0$ and
+	their sum must be $1$, i.e., $\sum_{j=1}^{k} \alpha_{ij} = 1$
+	with $\alpha_{ij} \geq 0$ and $i = 1, \ldots, n$. 
+
+	\item The archetypes are mixtures of the data points:
+	\[
+		Z = X^T * \beta
+	\]
+	with $\beta$, the coefficients of the data set, a $n \times k$
+	matrix where the elements are required to be greater equal $0$ and
+	their sum must be $1$, i.e., $\sum_{i=1}^{n} \beta_{ji} = 1$
+	with $\beta_{ji} \geq 0$ and $j = 1, \ldots, k$.
+\end{enumerate}
+These two fundamentals define the basic principles of the algorithm:
+it alternates between finding the best $\alpha$ for given 
+archetypes $Z$ and finding the best archetypes $Z$ for given
+$\alpha$; at each step several convex least squares problems are
+solved, the overall $\mbox{RSS}$ is reduced successively. 
+
+With a view to the implementation, the algorithm consists of the
+following steps:
+\begin{enumerate}
+	[label=\arabic{enumi}.,ref=\arabic{enumi},itemsep=6pt]
+
+	\item[] Given the number of archetypes $k$:
+
+	\item\label{alg:pre} Data preparation and initialization: scale
+	data, add a dummy row (see below) and initialize $\beta$
+	in a way that the the constraints are fulfilled to calculate the
+	starting archetypes $Z$.
+
+	\item\label{alg:loop} Loop until $\mbox{RSS}$ reduction is
+	sufficiently small or the number of maximum iterations is reached:
+
+	\begin{enumerate}
+		[label=\arabic{enumi}.\arabic{enumii}., 
+		ref=\arabic{enumi}.\arabic{enumii}, itemsep=6pt]
+
+		\item\label{alg:loop-alpha} Find best $\alpha$ for
+		the given set of archetypes $Z$: solve $n$ convex least
+		squares problems ($i = 1, \ldots, n$)
+		\[
+			\min_{\alpha_i} \frac{1}{2} \|Z * \alpha_i - X_i \|_2
+			\mbox{ subject to} \; \alpha_i \geq 0 \;
+			\mbox{ and } \; \sum_{j=1}^{k} \alpha_{ij} = 1\mbox{,}
+		\]
+		
+		\item\label{alg:loop-zt} Recalculate archetypes $\tilde{Z}$:
+		solve system of linear equations $X = \alpha * \tilde{Z}^T$.
+
+		\item\label{alg:loop-beta} Find best $\beta$ for the
+		given set of archetypes $\tilde{Z}$: solve $k$ convex least
+		squares problems ($j = 1, \ldots, k$)
+		\[
+			\min_{\beta_j} \frac{1}{2} \|X * \beta_j - \tilde{Z}_j \|_2
+			\mbox{ subject to} \; \beta_j \ge 0 \; 
+			\mbox{ and } \; \sum_{i=1}^{n} \beta_{ji} = 1\mbox{,}
+		\]
+
+		\item\label{alg:loop-z} Recalculate archetypes $Z$: $Z = X * \beta$.
+
+		\item\label{alg:loop-rss} Calculate residual sum of squares
+		$\mbox{RSS}$.
+	\end{enumerate}
+
+	\item\label{alg:post} Post-processing: remove dummy row and rescale
+	archetypes.
+\end{enumerate}
+The algorithm has to deal with several numerical problems,
+i.e. systems of linear equations and convex least squares 
+problems. In the following we explain each step in detail.
+
+\paragraph{Solving the convex least squares problems:} In Step
+\ref{alg:loop-alpha} and \ref{alg:loop-beta} several convex
+least squares problems have to be solved. \citet{Cutler+Breiman@1994}
+use a penalized version of the non-negative least squares algorithm by
+\citet{Lawson+Hanson@1974}. The penalization is done by adding an
+extra observation, {\it the dummy row}, to $X$ containing a ``huge''
+value $M$ at each element \citep[see, e.g.,][]{Luenberger@1984}. The
+hugeness of the value $M$ varies from problem to problem and thus can
+be seen as a hyperparameter of the algorithm. Default value in the
+package is $200$.
+
+\paragraph{Solving the system of linear equations:} In Step
+\ref{alg:loop-zt} the system of linear equations
+\[
+	\tilde{Z} = \alpha^{-1} * X
+\]
+has to be solved. A lot of methods exist, one approach is the
+Moore-Penrose pseudoinverse which provides an approximated unique
+solution by a least square approach: given the pseudoinverse
+$\alpha^+$ of $\alpha$,
+\[
+	\tilde{Z} = \alpha^{+} * X\mbox{,}
+\]
+is solved. Another approach is the usage of $QR$ decomposition:
+$\alpha = QR$, where $Q$ is an orthogonal and $R$ an upper triangular
+matrix, then
+\[
+	\tilde{Z} = Q^T * X * R^{-1}\mbox{,}
+\]
+is sovled. Default approach in the package is the $QR$ decomposition
+using the \code{solve()} function.
+
+\paragraph{Calculating the residual sum of squares:} In Step
+\ref{alg:loop-rss} the $\mbox{RSS}$ is calculated. It uses the
+spectral norm \citep[see, e.g.,][]{Golub+Loan@1996}). The spectral
+norm of a matrix $X$ is the largest singular value of $X$ or the
+square root of the largest eigenvalue of $X^H X$,
+\[
+	\|X\|_2 = \sqrt{\lambda_{max}(X^H X)}\mbox{,}
+\]
+where $X^H$ is the conjugate transpose of $X$.
+
+\paragraph{Avoiding local minima:} \citet{Cutler+Breiman@1994} shows
+that the algorithm converged in all cases, but not necessarily to a
+global minimum. Hence, the algorithm should be started several times
+with different initial archetypes. It is important that these are not
+too close together, this can cause slow convergence or convergence to
+a local minimum.
+
+\paragraph{Choosing the correct number of archetypes:} As in many cases
+there is no rule for the correct number of archetypes $k$. A simple
+method the determine the value of $k$ is to run the algorithm for
+different numbers of $k$ and use the ``elbow criterion'' on the
+$\mbox{RSS}$ where a ``flattening'' of the curve indicates the correct
+value of $k$.
+
+\paragraph{Approximation of the convex hull:} Through the definition
+of the problem, archetypes lie on the boundary of the convex hull of
+the data. Let $N$ be the number of data points which define the
+boundary of the convex hull, then \citet{Cutler+Breiman@1994} showed:
+if $1 < k < N$, there are $k$ archetypes on the boundary which
+minimize $\mbox{RSS}$; if $k = N$, exactly the data points which
+define the convex hull are the archetypes with $\mbox{RSS} = 0$; and
+if $k = 1$, the sample mean minimizes the $\mbox{RSS}$. In practice,
+these theoretical results can not always be achieved as we will see in
+the following two sections.
+
+
+\section[Using archetypes]{Using \pkg{archetypes}\label{pkg}}
+
+The package is loaded within \proglang{R} using the
+\code{library()} or \code{require()} command:
+<<echo=FALSE>>=
+library(archetypes)
+@ 
+\begin{Schunk}
+\begin{Sinput}
+> library(archetypes)
+\end{Sinput}
+\begin{Soutput}
+Loading required package: nnls
+\end{Soutput}
+\end{Schunk}
+It requires the packages \pkg{nnls} \citep{nnls} for solving the
+convex least square problems.
+ 
+We use a simple artificial two-dimensional data set to explain the
+usage of the implementation, and the behavior of the archetypal
+analysis at all. The advantage is that we can imagine the results and
+simply visualize them, Section \ref{body} then shows a more realistic
+example. Note that in the following the plot commands do not produce
+exactly the shown graphics concerning primitives coloring, width,
+etc.; due to readability we have reduced the presented commands to the
+significant arguments.
+<<eval=FALSE>>=
+data(toy)
+plot(toy)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=3in}
+<<fig=TRUE,echo=FALSE,width=3,height=3>>=
+data(toy)
+
+par(mar=c(4,4,0,0)+0.1, ps=9)
+plot(toy, xlab='x', ylab='y', xlim=c(0,20), ylim=c(0,20),
+     pch=19, col=gray(0.7), cex=0.6)
+@ 
+	\caption{Two-dimensional artificial data set \code{toy}.}
+	\label{fig:toy-data}
+\end{figure}
+Data set \code{toy} consists of the two attributes $x$ and $y$, and
+$\Sexpr{nrow(toy)}$ observations. According to the shape of the data,
+it seems to be a good idea to apply archetypal analysis with $k = 3$
+archetypes.
+<<>>=
+set.seed(1986)
+a <- archetypes(toy, 3)
+@ 
+During the fit, the function reports its improvement and stops after a
+maximum number of iterations (default is \code{maxIterations = 100})
+or if the improvement is less than a defined value (default is
+\code{minImprovement = sqrt(.Machine$double.eps)}). As basis for our %$
+further research, the implementation is a flexible framework where the
+problem solving mechanisms of the individual steps can be
+interchanged. The default values are the ``original ones'' described
+in the previous section (\code{family = archetypesFamily()}). The
+result is a S3 \code{archetypes} object,
+<<>>=
+a
+@ 
+containing the three final archetypes:
+<<>>=
+atypes(a)
+@ 
+
+The \code{plot()} function visualizes archetypes for two-dimensional
+data sets; for higher-dimensional data sets parallel coordinates are
+used.
+<<eval=FALSE>>=
+plot(a, toy, chull=chull(toy))
+plot(a, toy, adata.show=TRUE)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<fig=TRUE,echo=FALSE,width=6,height=3>>=
+par(mfrow=c(1,2), mar=c(4,4,0,0)+0.1, ps=9)
+plot(a, toy, chull=chull(toy), 
+     xlab='x', ylab='y', xlim=c(0,20), ylim=c(0,20), cex=0.6)
+plot(a, toy, adata.show=TRUE, 
+     xlab='x', ylab='y', xlim=c(0,20), ylim=c(0,20), cex=0.6)
+@ 
+	\caption{Three archetypes for the \code{toy} data set. The
+	left plot shows the convex hull (black), the archetypes and
+	the approximated convex hull (red).  The right plot shows the
+	approximation of the data points through the archetypes and
+	corresponding $\alpha$ values (green symbols, and grey
+	connection lines).}
+	\label{fig:toy-a}
+\end{figure}
+The left plot shows the archetypes, their approximation of the
+convex hull (red dots and lines) and the convex hull (black dots and
+lines) of the data. The right plot additionally shows the
+approximation of  the data through the archetypes and the
+corresponding $\alpha$ values (green symbols, and grey connection
+lines); as we can see, all data points outside the approximated convex
+hull are mapped on its boundary. This plot is based on an idea and
+Matlab source code of Bernard Pailthorpe \citep{pc:Pailthorpe}.
+
+With \code{saveHistory = TRUE} (which is set per default) each step of
+the execution is saved and we can examine the archetypes in each
+iteration using the \code{ahistory()} command; the initial archetypes,
+for example, are \code{ahistory(a, step=0)}. This can be used to
+create an ``evolution movie'' of the archetypes,
+<<eval=FALSE>>=
+movieplot(a, toy)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<fig=TRUE,echo=FALSE,width=6,height=5.5>>=
+par(mfrow=c(4,2), mar=c(4,4,0,0)+0.1, ps=9)
+movieplot(a, toy, xlim=c(0,20), ylim=c(0,20), cex=0.6)
+@ 
+	\caption{The ``evolution movie'' of the three archetypes on
+	\code{toy}. Real animations are as Flash movies available from
+	\url{http://www.statistik.lmu.de/~eugster/archetypes/}.}
+	\label{fig:toy-movieplot}
+\end{figure}
+The figure shows the plots of the eight steps (the random
+initialization and the seven iterations) from top to  bottom and left
+to right. In each step the three archetypes move further to the three
+corners of the data set. A movie of the approximated data is shown when
+setting parameter \code{show = 'adata'}\footnote{Real animations are
+  as Flash movies available from
+  \url{http://www.statistik.lmu.de/~eugster/archetypes/}.}.
+
+In the previous section we mentioned that the algorithm should be
+started several times to avoid local minima. This is done using the
+\code{stepArchetypes()} function; it passes all arguments to the 
+\code{archetypes()} function and additionally has the argument
+\code{nrep} which specifies the number of repetitions.
+<<>>=
+set.seed(1986)
+a4 <- stepArchetypes(data=toy, k=3, verbose=FALSE, nrep=4)
+@ 
+The result is a S3 \code{stepArchetypes} object,
+<<>>=
+a4
+@ 
+where \code{summary()} provides an overview of each repetition by
+showing the final residual sum of squares and number of iterations:
+<<>>=
+summary(a4)
+@ 
+There are no huge differences in the residual sum of squares, thus if
+there are different local minima then they are all equally good. But
+the following plot shows that the repetition starts all nearly found
+the same final archetypes (and thus the same local minima), 
+<<eval=FALSE>>=
+plot(a4, toy)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=3in}
+<<fig=TRUE,echo=FALSE,width=3,height=3>>=
+par(mar=c(4,4,0,0)+0.1, ps=9)
+plot(a4, toy, cex=0.6, xlim=c(0,20), ylim=c(0,20))
+@ 
+	\caption{The final three archetypes for four different starts on
+          data set \code{toy} with randomly chosen initial archetypes.}
+	\label{fig:toy-a4}
+\end{figure}
+However, the model of repetition $3$ has the lowest residual sum of
+squares and is the best model:
+<<eval=FALSE>>=
+bestModel(a4)
+@ 
+<<echo=FALSE>>=
+print(bestModel(a4), full=FALSE)
+@ 
+
+At the beginning of the example we decided by looking at the data
+that three archetypes may be a good choice. It is not given that this
+is the right choice, and with higher-dimensional data this is not
+possible at all. As already mentioned in the previous section, one
+simple way to choose the correct number of archetypes is to run the
+algorithm for different numbers of $k$ and use the ``elbow criterion''
+on the residual sum of squares. The \code{stepArchetypes()} function
+allows a vector as value of argument $k$ and executes for each $k_i$
+the \code{archetypes()} function $nrep$ times.
+<<echo=FALSE>>=
+file <- 'toy-as.RData'
+if ( file.exists(file) ) {
+  load(file=file)
+} else {
+  set.seed(1986)
+  as <- stepArchetypes(data=toy, k=1:10, verbose=FALSE, nrep=4)
+  save(as, file=file)
+}
+@ 
+\begin{Schunk}
+\begin{Sinput}
+> set.seed(1986)
+> as <- stepArchetypes(data=toy, k=1:10, verbose=FALSE, nrep=4)
+\end{Sinput}
+\begin{Soutput}
+There were 23 warnings (use warnings() to see)
+\end{Soutput} 
+\end{Schunk}
+The occurred warnings indicate that errors occured during the
+execution, in this case, singular matrizes in solving the linear
+equation system in Step \ref{alg:loop-zt} as from $k = 4$:
+\begin{Schunk}
+\begin{Sinput}
+> warnings()
+\end{Sinput}
+\begin{Soutput}
+Warnings:
+1: In archetypes(..., k = k[i], verbose = verbose) ... :
+  k=4: Error in qr.solve(alphas %*% t(alphas)): singular matrix 'a' in solve
+2: In archetypes(..., k = k[i], verbose = verbose) ... :
+  k=5: Error in qr.solve(alphas %*% t(alphas)): singular matrix 'a' in solve
+3: In archetypes(..., k = k[i], verbose = verbose) ... :
+  k=5: Error in qr.solve(alphas %*% t(alphas)): singular matrix 'a' in solve
+[...]
+\end{Soutput}
+\end{Schunk}
+In these cases the residual sum of squares is \code{NA}:
+<<>>=
+rss(as)
+@ 
+And all errors occured during the first iteration,
+<<>>=
+iters(as)
+@ 
+which is an indication for an afflicted random initialisation. But up
+to $k = 5$ there is always at least one start with a meaningful result
+and the residual sum of squares curve of the best models shows that by
+the ``elbow criterion'' three or maybe seven is the best number of
+archetypes:
+<<eval=FALSE>>=
+screeplot(as)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=4in}
+<<fig=TRUE,echo=FALSE,width=4,height=3>>=
+par(mar=c(4,4,0.1,0)+0.1, ps=9)
+screeplot(as, cex=0.6, ylim=c(0, 0.08))
+@ 
+	\caption{Residual sum of squares curve of the best models of
+          four repetitions for $p = 1, \ldots, 7$ archetypes.}
+	\label{fig:toy-rssplot}
+\end{figure}
+We already have seen the three archetypes in detail; the seven
+archetypes of the best repetition and their approximation of the data
+are:
+<<eval=FALSE>>=
+a7 <- bestModel(as[[7]])
+plot(a7, toy, chull=chull(toy))
+plot(a7, toy, adata.show=TRUE)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<fig=TRUE,echo=FALSE,width=6,height=3>>=
+a7 <- bestModel(as[[7]])
+
+par(mfrow=c(1,2), mar=c(4,4,0,0)+0.1, ps=9)
+plot(a7, toy, chull=chull(toy),
+     xlim=c(0,20), ylim=c(0,20), cex=0.6)
+plot(a7, toy, adata.show=TRUE,
+     xlim=c(0,20), ylim=c(0,20), cex=0.6)
+@
+        \caption{Seven archetypes for the \code{toy} data set. The
+	left plot shows the convex hull (black), the archetypes and
+	the approximated convex hull (red).  The right plot shows the
+	approximation of the data points through the archetypes and
+	corresponding $\alpha$ values (green symbols, and grey
+	connection lines).}
+        \label{fig:toy-a7}
+\end{figure}
+The approximation of the convex hull is now clearly visible.
+
+As we mentioned in Section \ref{algorithm}, there are many ways to
+solve linear equation systems. One other possibility is the
+Moore-Penrose pseudoinverse:
+<<echo=FALSE>>=
+file <- 'toy-gas.RData'
+if ( file.exists(file) ) {
+  load(file=file)
+} else {
+  set.seed(1986)
+  gas <- stepArchetypes(data=toy, k=1:10, family=archetypesFamily('ginv'),
+                        verbose=FALSE, nrep=4)
+  save(gas, file=file)
+}
+@ 
+\begin{Schunk}
+\begin{Sinput}
+> set.seed(1986)
+> gas <- stepArchetypes(data=toy, k=1:10, family=archetypesFamily('ginv'),
++                       verbose=FALSE, nrep=4)
+\end{Sinput}
+\begin{Soutput}
+Loading required package: MASS
+There were 23 warnings (use warnings() to see)
+\end{Soutput} 
+\end{Schunk}
+We use the \code{ginv()} function from the \pkg{MASS} package to
+calculate the pseudoinverse. The function ignores ill-conditioned
+matrizes and ``just solves the linear equation system'', but the
+\code{archetypes} function throws warnings of ill-conditioned matrices
+if the matrix condition number $\kappa$ is bigger than an upper bound
+(default is \code{maxKappa = 1000}):
+\begin{Schunk}
+\begin{Sinput}
+> warnings()
+\end{Sinput}
+\begin{Soutput}
+Warnings:
+1: In archetypes(..., k = k[i], verbose = verbose) ... :
+  k=4: alphas > maxKappa
+2: In archetypes(..., k = k[i], verbose = verbose) ... :
+  k=5: alphas > maxKappa
+3: In archetypes(..., k = k[i], verbose = verbose) ... :
+  k=5: alphas > maxKappa
+[...]
+\end{Soutput}
+\end{Schunk}
+In comparison with the $QR$ decomposition, the warnings occured for the
+same number of archetypes $k_i$ during the same repetition. In most of
+these cases the residual sum of squares is about $12$,
+<<>>=
+rss(gas)
+@ 
+and the randomly chosen initial archetypes ``collapse'' to the center
+of the data as we exemplarily see for $k = 9$, $r = 3$:
+<<eval=FALSE>>=
+movieplot(gas[[9]][[3]], toy)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<fig=TRUE,echo=FALSE,width=6,height=2>>=
+par(mfrow=c(1,4), mar=c(4,4,0,0)+0.1, ps=9)
+movieplot(gas[[9]][[3]], toy, xlim=c(0,20), ylim=c(0,20), cex=0.6)
+@ 
+	\caption{gas movieplot}
+	\label{fig:toy-movieplot-gas}
+\end{figure}
+The figure shows the four steps (from top to bottom and left to
+right), the random initialization and the three iterations until all
+archetypes are in the center of the data.
+
+All other residual sum of squares are nearly equivalent to the ones
+calculated with $QR$ decomposition. Further investigations would show
+that three or maybe seven is the best number of archetypes, and in
+case of $k = 3$ nearly the same three points are the best
+archetypes. An interesting exception is the case $k = 7, r = 2$; the
+residual sum of squares is exactly the same, but not the
+archetypes. The plots of the archetypes and their approximation of the
+data:
+<<eval=FALSE>>=
+ga7 <- bestModel(gas[[7]])
+plot(ga7, toy, chull=chull(toy))
+plot(ga7, toy, adata.show=TRUE)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<fig=TRUE,echo=FALSE,width=6,height=3>>=
+ga7 <- bestModel(gas[[7]])
+
+par(mfrow=c(1,2), mar=c(4,4,0,0)+0.1, ps=9)
+plot(ga7, toy, chull=chull(toy),
+     xlim=c(0,20), ylim=c(0,20), cex=0.6)
+plot(ga7, toy, adata.show=TRUE,
+     xlim=c(0,20), ylim=c(0,20), cex=0.6)
+@
+        \caption{Seven archetypes for the \code{toy} data set. The
+	left plot shows the convex hull (black), the archetypes and
+	the approximated convex hull (red).  The right plot shows the
+	approximation of the data points through the archetypes and
+	corresponding $\alpha$ values (green symbols, and grey
+	connection lines).}
+        \label{fig:toy-a7-gas}
+\end{figure}
+Interesting is the one archetype in the center of the data set and
+especially the approximation of the data in the right area of
+it. As the data are approximated by a linear combination of archetypes
+and non-negative $\alpha$, the only possibility for this kind of
+approximation is when $\alpha$ for this archetype is always zero:
+<<>>=
+apply(alphas(ga7), 2, range)
+@ 
+As we can see, $\alpha$ of archetype $1$ (column one) is $0$ for all
+data points. Theoretically, this is not possible, but ill-conditioned
+matrices during the fit process lead to such results in
+practice. The occurred warnings (\code{k=7: alphas > max.kappa})
+notify that solving the convex least squares problems lead to the
+ill-conditioned matrices. Our simulations showed that this behavior
+mostly appears when requesting a relatively large number of archetypes
+in relation to size of the data set.
+
+
+
+\section[Example]{Example: Skeletal archetypes\label{body}}
+
+In this section we apply archetypal analysis on an interesting
+real world example: in \citet{Heinz+Peterson+Johnson+Kerk@2003} the
+authors took body girth measurements and skeletal diameter
+measurements, as well as age, weight, height and gender on $247$ men
+and $260$ women in their twenties and early thirties, with a scattering
+of older man and woman, and all physically active. The full data are
+available within the package as \code{data(body)}, but we are only
+interested in a subset, the skeletal measurements and the height (all
+measured in centimeters),
+<<>>=
+data(skel)
+skel2 <- subset(skel, select=-Gender)
+@ 
+
+The skeletal measurements consist of nine diameter measurements:
+biacromial (\code{Biac}), shoulder diameter; biiliac (\code{Biil}),
+pelvis diameter; bitrochanteric (\code{Bitro}) hip diameter; chest
+depth between spine and sternum at nipple level, mid-expiration
+(\code{ChestDp}); chest diameter at nipple level, mid-expiration
+(\code{ChestDiam}); elbow diameter, sum of two elbows
+(\code{ElbowDiam}); wrist diameter, sum of two wrists
+(\code{WristDiam}); knee diameter, sum of two knees (\code{KneeDiam});
+ankle diameter, sum of two ankles (\code{AnkleDiam}). See the original
+publication for a full anatomical explanation of the skeletal
+measurements and the process of measuring. We use basic elements of
+{\it Human Modeling and Animation} to model the skeleton and create a
+schematic representation of an individual, e.g.,
+\code{skeletonplot(skel2[1,])} for observation number one. The
+function \code{jd()} (for ``John Doe'') uses this plot and shows a
+generic individual with explanations of the measurements:
+<<eval=FALSE>>=
+jd()
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<fig=TRUE,echo=FALSE,width=6,height=4>>=
+par(mar=c(1,4,0,0)+0.1, ps=9)
+jd()
+@ 
+	\caption{JD.}
+        \label{fig:body-jd}
+\end{figure}
+For visualizing the full data set, parallel coordinates with
+axes arranged according to the ``natural order'' are used,
+<<eval=FALSE>>=
+pcplot(skel2)
+@ 
+\begin{figure}[H]
+ 	\centering
+\setkeys{Gin}{width=6in}
+<<echo=FALSE>>=
+datacol <- rgb(178, 178, 178, maxColorValue=255, 
+               alpha=round(255*0.2))
+@ 
+<<eval=FALSE,fig=TRUE,echo=FALSE,width=6,height=4.5>>=
+par(mar=c(5,0.4,0,0.4)+0.1, ps=9)
+pcplot(skel2, las=2, col=datacol)
+@ 
+<<results=tex,echo=FALSE>>=
+png(filename='body-pcplot-raw.png', units='px',
+    width=590, height=430, pointsize=12)
+par(mar=c(5.5,0.4,0,0.4)+0.1)
+pcplot(skel2, las=2, col=datacol)
+graphics.off()
+cat('\\includegraphics{body-pcplot-raw.png}\n')
+@ 
+        \caption{Skeletons (\code{pcplot()}); axes arranged
+          according to the ``natural order''.}
+        \label{fig:body-data}
+\end{figure}
+At first view no patterns are visible and it is not possible to
+guess a meaningful number of archetypes. Therefore, we calculate
+the archetypes for $k = 1, \ldots, 15$ with three repetations each
+time,
+<<echo=FALSE>>=
+file <- 'body-as.RData'
+if ( file.exists(file) ) {
+  load(file=file)
+} else {
+  set.seed(1981)
+  as <- stepArchetypes(skel2, k=1:15, verbose=FALSE)
+  save(as, file=file)
+}
+@ 
+\begin{Schunk}
+\begin{Sinput}
+> set.seed(1981)
+> as <- stepArchetypes(skel2, k=1:15, verbose=FALSE, nrep=3)
+\end{Sinput}
+\begin{Soutput}
+There were 12 warnings (use warnings() to see)
+\end{Soutput}
+\end{Schunk}
+The warnings indicate ill-conditioned matrices as from $k =
+11$, but, not as in the previous section, the residual sum of squares
+contains no \code{NA} values. The corresponding curve of the best
+model in each case is:
+<<eval=FALSE>>=
+screeplot(as)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=5in}
+<<fig=TRUE,echo=FALSE,width=5,height=3>>=
+par(mar=c(4,4,0.4,0)+0.1, ps=9)
+screeplot(as, cex=0.6)
+@ 
+	\caption{Residual sum of squares curve.}
+	\label{fig:body-rss}
+\end{figure}
+And according to the ``elbow criterion'' $k = 3$ or maybe $k = 7$ is
+the best number of archetypes. Corresponding to Occam's razor we
+proceed with three archetypes,
+<<>>=
+a3 <- bestModel(as[[3]])
+@ 
+The three archetypes are (transposed for better readability):
+<<>>=
+t(atypes(a3))
+@ 
+Or as a barplot in relation to the original data:
+<<eval=FALSE>>=
+barplot(a3, skel2, percentage=TRUE)
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=5in}
+<<fig=TRUE,echo=FALSE,width=5,height=2.5>>=
+par(mar=c(5,4,0.4,0)+0.1, ps=9)
+barplot(a3, skel2, percentage=TRUE, las=2)
+@ 
+	\caption{Barplot.}
+	\label{fig:body-barplot}
+\end{figure}
+Archetype 2 (gray) represents individuals which are ``huge'' in all
+measurements; on the other hand, archetype 3 (lightgray) represents
+individuals which are ``small''. Archetype 1 (darkgray) represents
+individuals with average measures except the bitrochanteric and
+biiliac -- the meaning of this is best visible when looking at the
+data with gender information (men are blue, women are green colored,
+with alpha transparency) and the archetypes (red),
+<<eval=FALSE>>=
+pcplot(a3, skel2, data.col=as.numeric(skel$Gender))
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<echo=FALSE>>=
+datacol <- c(rgb(0, 205, 0, maxColorValue=255, 
+                 alpha=round(255*0.2)),
+             rgb(0, 0, 255, maxColorValue=255, 
+                 alpha=round(255*0.2)))
+@ 
+<<eval=FALSE,fig=TRUE,echo=FALSE,width=6,height=4.5>>=
+par(mar=c(5,0.4,0,0.4)+0.1, ps=9)
+pcplot(a3, skel2, las=2, data.col=datacol[skel$Gender])
+@ 
+<<results=tex,echo=FALSE>>=
+png(filename='body-pcplot-gender.png', units='px',
+    width=590, height=430, pointsize=12)
+par(mar=c(5.5,0.4,0,0.4)+0.1)
+pcplot(a3, skel2, las=2, data.col=datacol[skel$Gender])
+graphics.off()
+cat('\\includegraphics{body-pcplot-gender.png}\n')
+@ 
+        \caption{Skeleton archetypes; axes arranged according to the
+	``natural order''.}
+        \label{fig:body-a3}
+\end{figure}
+Archetype 2 reflects the primary difference between men and women in
+body structure -- the comparatively wider hip and pelvis of women.
+A verification of this interpretation can be done by looking at the
+coefficients $\alpha$ and see how much each archetype contributes to
+the approximation of each individual observation. For three
+archetypes, a ternary plot is a usable graphical representation (e.g.,
+package \pkg{vcd} by \citet{vcd}):
+<<eval=FALSE>>=
+ternaryplot(alphas(a3), col=as.numeric(skel$Gender))
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=3in}
+<<fig=TRUE,echo=FALSE,width=3,height=1.7>>=
+library(vcd)
+#source('myternaryplot.R')
+ternaryplot(alphas(a3), dimnames=1:3, cex=0.6,
+            col=datacol[skel$Gender], main=NULL,
+            labels='none') 
+@ 
+	\caption{Ternary plot of coefficients.}
+        \label{fig:body-alpha-ternary}
+\end{figure}
+Clearly, men observations cluster close to archetype $2$ and women mixes mainly
+the first and the third archetype. For more than three archetypes
+parallel coordinates with an axis for each archetype projecting the
+corresponding coefficients (in range $[0,1]$) can be used to
+investigate the coefficients $\alpha$.
+% <<eval=FALSE>>=
+% pcplot(a3$alphas, col=datacol[skel$Gender])
+% @ 
+% \begin{figure}[H]
+% 	\centering
+% \setkeys{Gin}{width=3in}
+% <<fig=TRUE,echo=FALSE,width=3,height=3>>=
+% par(mar=c(5,0.4,0,0.4)+0.1, ps=9)
+% pcplot(a3$alphas, col=datacol[skel$Gender])
+% @ 
+%         \caption{$\alpha$ with gender information.}
+%         \label{fig:body-alphas-pcp}
+% \end{figure}
+
+Finally, the \code{skeletonplot()} visualizes the three skeleton
+archetypes:
+<<eval=FALSE>>=
+skeletonplot(atypes(a3))
+@ 
+\begin{figure}[H]
+	\centering
+\setkeys{Gin}{width=6in}
+<<fig=TRUE,echo=FALSE,width=6,height=4>>=
+par(mar=c(3,4,0,0)+0.1, ps=9)
+skeletonplot(atypes(a3), skel.height=190)
+@ 
+        \caption{Skeleton archetypes.}
+        \label{fig:body-a3-real}
+\end{figure}
+
+
+\section[Summary and outlook]{Summary and outlook\label{outlook}}
+
+In Section \ref{algorithm} we explained the different steps of the
+algorithms according to the original paper. However, for each problem
+a number of methods exist and the choice of the right method often
+depends on the concrete data set. In Section \ref{pkg} we have already
+used the \code{archetypesFamily()} function to use different linear
+equations solver, but the function has to be extendend to allow
+abritary problem solving blocks for each step of the algorithm.
+
+Additionally, the two fundamentals defined in Section \ref{algorithm}
+can be generalized to allow for example arbitrary loss functions,
+arbitrary conditions on the coefficients $\alpha$ or arbitrary matrix
+norms. As the algorithm strategy is similar to the least squares
+formulation of the $k$-means algorithm, this leads to a general
+framework for this class of $k$-means-like algorithms ($k$-means,
+$k$-median, Fuzzy $k$-means, etc.; see, e.g., \citet{Steinley@2006}).
+
+Altogether, the short-term goal for the package \pkg{archetypes} was
+the implementation of a general framework with interchangeable blocks
+for the concrete problem solving mechanisms of each algorithm
+step. Now, further work is the design of a clean archetypes family
+object, especially with a view to our long-term goal, the
+generalization towards the class of $k$-means-like algorithms.
+
+
+\appendix
+
+\section*{Computational details}
+
+All computations and graphics in this paper have been done using
+\proglang{R} version 2.7.1 with the packages \pkg{archetypes} 0.1,
+\pkg{MASS} 7.2-43, \pkg{nnls} 1.1 and \pkg{tools} 2.7.1.
+
+The newest released version of \pkg{archetypes} is always available
+from the Comprehensive R Archive Network at
+\url{http://CRAN.R-Project.org/package=archetypes}. The development
+version is hosted on R-Forge as project \pkg{Archetypal Analysis
+(archetypes)} and available from
+\url{http://r-forge.r-project.org/projects/archetypes}. The source
+code is documented using the Roxygen documentation system for
+\proglang{R} \citep{roxygen}.
+
+
+\section*{Acknowledgments}
+
+The authors thank Bernard Pailthorpe, University of Queensland, for
+providing his Matlab code for comparison with our code.
+
+\bibliography{archetypes}
+
+
+\end{document}
+
