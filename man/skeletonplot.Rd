@@ -1,5 +1,4 @@
 \name{skeletonplot}
-\alias{skeletonplot}
 \title{Skeleton plot.}
 \usage{skeletonplot(x, skel.width=100, skel.height=200, base.radius=2, xlab='',
 ylab='Height (cm)', xlim=(nrow(x) * c(0, skel.width)), ylim=c(0,
@@ -11,6 +10,7 @@ chest='purple1', pelvis=6), mtext=TRUE, skel.lwd=1, ...)}
 in dataset \code{\link{skel}}.}
 \value{List of skeleton instances.}
 \seealso{\code{\link{skel}}, \code{\link{jd}}}
+\alias{skeletonplot}
 \arguments{\item{x}{Matrix or data.frame of skeleton data.}
 \item{skel.width}{Reference width for instance calculation.}
 \item{skel.height}{Reference height for instance calculation.}

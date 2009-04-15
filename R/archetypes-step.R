@@ -157,7 +157,7 @@ iters.stepArchetypes <- function(zs, ...) {
 #' Best model getter.
 #' @param zs An \code{\link{stepArchetypes}} object.
 #' @param ... Further arguments.
-#' @return A list of length $k$ of best models.
+#' @return A list of length \code{k} of best models.
 #' @export
 bestModel <- function(zs, ...) {
   UseMethod('bestModel')
@@ -166,7 +166,7 @@ bestModel <- function(zs, ...) {
 #' \code{stepArchetypes} best model getter.
 #' @param zs A \code{stepArchetypes} object.
 #' @param ... Ignored.
-#' @return A list of length $k$ of best models.
+#' @return A list of length \code{k} of best models.
 #' @method bestModel stepArchetypes
 #' @S3method bestModel stepArchetypes
 bestModel.stepArchetypes <- function(zs, ...) {

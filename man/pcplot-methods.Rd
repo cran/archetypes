@@ -17,7 +17,7 @@ pcplot(x, ...)
   \item{col}{Line color.}
   \item{lty}{Line type.}
   \item{var.label}{Axes labels.}
-  \item{rx}{A $2 \times m$ matrix with ranges for each dimension.}
+  \item{rx}{A \eqn{2 \times m} matrix with ranges for each dimension.}
   \item{data}{A matrix or data frame.}
   \item{data.col}{Color of data lines.}
   \item{data.lwd}{Width of data lines.}

@@ -11,7 +11,7 @@
 \references{Cutler and Breiman. Archetypal Analysis. Technometrics,
 36(4), 1994. 338-348.}
 \note{Please see the vignette for a detailed explanation!}
-\arguments{\item{data}{A numeric $n \times m$ data matrix.}
+\arguments{\item{data}{A numeric \eqn{n \times m} data matrix.}
 \item{k}{The number of archetypes.}
 \item{maxIterations}{The maximum number of iterations.}
 \item{minImprovement}{The minimal value of improvement between two

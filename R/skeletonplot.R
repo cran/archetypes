@@ -26,6 +26,7 @@
 #'    shoulder = 1, head = 1, elbow=2, wrist=3, knee=4, ankle=5,
 #'    chest='purple1', pelvis=6), mtext=TRUE, skel.lwd=1, ...)
 #' @seealso \code{\link{skel}}, \code{\link{jd}}
+#' @aliases skeletonplot
 skeletonplot <- function(x, skel.width=100, skel.height=200,
                          base.radius=2, xlab='', ylab='Height (cm)',
                          xlim=(nrow(x)*c(0,skel.width)), ylim=c(0,skel.height),

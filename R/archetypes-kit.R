@@ -5,7 +5,7 @@
 
 
 #' Perform archetypal analysis on a data matrix.
-#' @param data A numeric $n \times m$ data matrix.
+#' @param data A numeric \eqn{n \times m} data matrix.
 #' @param k The number of archetypes.
 #' @param maxIterations The maximum number of iterations.
 #' @param minImprovement The minimal value of improvement between two
@@ -39,7 +39,9 @@ archetypes <- function(data, k, maxIterations=100,
     history[[paste('s', name, sep='')]] <-
       list(archetypes=as.archetypes(t(family$rescalefn(x,
              family$undummyfn(x, zs))), k, alphas=t(alphas),
-             rss=rss, kappas=kappas))
+             betas=t(betas), zas=t(family$rescalefn(x,
+             family$undummyfn(x, zas))), rss=rss,
+             kappas=kappas))
   }
 
 
@@ -60,6 +62,8 @@ archetypes <- function(data, k, maxIterations=100,
 
   zs <- x %*% betas
   rss <- family$normfn(zs %*% alphas - x) / n
+
+  zas <- NULL
 
   kappas <- c(alphas=kappa(alphas), betas=kappa(betas),
               zas=-Inf, zs=kappa(zs))
@@ -137,5 +141,6 @@ archetypes <- function(data, k, maxIterations=100,
 
   
   return(as.archetypes(zs, k, t(alphas), rss, iters=(i-1),
-                       call=mycall, history=history, kappas=kappas))
+                       call=mycall, history=history, kappas=kappas,
+                       betas=t(betas)))
 }

@@ -9,4 +9,4 @@ citEntry(entry="TechReport",
 	url="http://epub.ub.uni-muenchen.de/8270/",
 	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch. Spider-Man,",
 		"the Child and the Trickster -- Archetypal Analysis in R.",
-		"Technical Report 44, LMU München, 2008."))
+		"Technical Report 44, LMU Muenchen, 2008."))

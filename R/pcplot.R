@@ -18,12 +18,12 @@ pcplot <- function(x, ...) {
 #' functionality is probabibly merged with the original function or it is
 #' possible with parallel coordinate plots which are available et all.
 #'
-#' @param x A $n \times m$ matrix or data frame who columns represent
+#' @param x A \eqn{n \times m} matrix or data frame who columns represent
 #'   variables. Missing values are allowed.
 #' @param col Line color.
 #' @param lty Line type.
 #' @param var.label Axes labels.
-#' @param rx A $2 \times m$ matrix with ranges for each dimension.
+#' @param rx A \eqn{2 \times m} matrix with ranges for each dimension.
 #' @param ... Passed to the underlying \code{\link[graphics]{matplot}}
 #'   function.
 #' @return Undefined.
