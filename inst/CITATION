@@ -1,12 +1,19 @@
 citHeader("To cite package archetypes in publications use:")
 
-citEntry(entry="TechReport",
-	title="{Spider-Man, the Child and the Trickster} -- Archetypal Analsis in {R}",
-	author=personList(person(first="Manuel J. A.", last="Eugster"),
-		person(first="Friedrich", last="Leisch")),
-	year="2008",
-	number="44",
-	url="http://epub.ub.uni-muenchen.de/8270/",
-	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch. Spider-Man,",
-		"the Child and the Trickster -- Archetypal Analysis in R.",
-		"Technical Report 44, LMU Muenchen, 2008."))
+citEntry(entry="Article",
+	title="{From {S}pider-{M}an to {H}ero -- Archetypal Analsis in {R}",
+	author=personList(as.person("Manuel J. A. Eugster"),
+		as.person("Friedrich Leisch")),
+	journal="Journal of Statistical Software",
+	year="2009",
+	volume="30",
+	number="8",
+	pages="1--23",
+	url="http://www.jstatsoft.org/v30/i08/",
+	
+	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch.",
+		"From Spider-Man to Hero -- Archetypal Analysis in R.",
+		"Journal of Statistical Software, 30(8), 1-23, 2009.",
+		"http://www.jstatsoft.org/v30/i08/")
+)
+
