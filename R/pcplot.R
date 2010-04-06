@@ -1,10 +1,10 @@
 
 
-#' Generic function for parallel coordinates plot.
+#' Parallel coordinates plot.
 #' @param x An object.
 #' @param ... Further arguments.
 #' @export
-#' @noRd
+#' @rdname archetypes-generics
 pcplot <- function(x, ...) {
   UseMethod('pcplot')
 }
@@ -29,6 +29,7 @@ pcplot <- function(x, ...) {
 #' @return Undefined.
 #' @method pcplot default
 #' @S3method pcplot default
+#' @rdname pcplot
 pcplot.default <- function (x, col=gray(0.7), lty=1, var.label=TRUE,
                             rx=NULL, ...) {
 
@@ -48,15 +49,15 @@ pcplot.default <- function (x, col=gray(0.7), lty=1, var.label=TRUE,
   colnames(sx) <- colnames(x)
 
   x <- sx
-  
-  matplot(1:ncol(x), t(x), type="l", col=col, lty=lty, 
+
+  matplot(1:ncol(x), t(x), type="l", col=col, lty=lty,
           xlab="", ylab="", axes=FALSE, ...)
   axis(1, at=1:ncol(x), labels=colnames(x), ...)
-   
+
   for (i in 1:ncol(x)) {
     lines(c(i, i), c(0, 1), col="grey70")
-    if (var.label) 
-      text(c(i, i), c(0, 1), labels=format(rx[, i], digits=3), 
+    if (var.label)
+      text(c(i, i), c(0, 1), labels=format(rx[, i], digits=3),
            xpd=NA, offset=0.3, pos=c(1, 3), cex=0.7)
   }
 }
@@ -70,6 +71,7 @@ pcplot.default <- function (x, col=gray(0.7), lty=1, var.label=TRUE,
 #' @param lty Line types.
 #' @param ... Passed to underlying \code{\link[graphics]{matlines}}.
 #' @return Undefined.
+#' @rdname pcplot
 lines.pcplot <- function(x, data, col=1, lty=1, ...) {
   rx <- apply(data, 2, range, na.rm=TRUE)
 
@@ -77,6 +79,6 @@ lines.pcplot <- function(x, data, col=1, lty=1, ...) {
               function(i) {
                 (x[,i] - rx[1,i]) / (rx[2,i] - rx[1,i])
               })
-  
+
   matlines(1:ncol(x), t(x), col=col, lty=lty, ...)
 }

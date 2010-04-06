@@ -19,24 +19,18 @@
 #' @param ... Passed to underlying canvas plot function.
 #' @return List of skeleton instances.
 #' @export
-#' @usage
-#' skeletonplot(x, skel.width=100, skel.height=200, base.radius=2, xlab='',
-#'    ylab='Height (cm)', xlim=(nrow(x) * c(0, skel.width)), ylim=c(0,
-#'    skel.height), col=c(hipbase = 1, hip = 1, shoulderbase = 1,
-#'    shoulder = 1, head = 1, elbow=2, wrist=3, knee=4, ankle=5,
-#'    chest='purple1', pelvis=6), mtext=TRUE, skel.lwd=1, ...)
-#' @seealso \code{\link{skel}}, \code{\link{jd}}
-#' @aliases skeletonplot
-skeletonplot <- function(x, skel.width=100, skel.height=200,
-                         base.radius=2, xlab='', ylab='Height (cm)',
-                         xlim=(nrow(x)*c(0,skel.width)), ylim=c(0,skel.height),
-                         col=c(hipbase=1, hip=1, shoulderbase=1, shoulder=1, head=1,
-                           elbow=2, wrist=3, knee=4, ankle=5, chest='purple1', pelvis=6),
-                         mtext=TRUE, skel.lwd=1, ...) {
+#' @seealso \code{\link{skel}}
+skeletonplot <- function(x, skel.width = 100, skel.height = 200,
+                         ylab = 'Height (cm)', base.radius = 2, xlab = '',
+                         xlim = (nrow(x)*c(0,skel.width)), ylim = c(0, skel.height),
+                         col = c(hipbase = 1, hip = 1, shoulderbase = 1, shoulder = 1,
+                                 head = 1, elbow = 2, wrist = 3, knee = 4, ankle = 5,
+                                 chest = 'purple1', pelvis = 6),
+                         mtext = TRUE, skel.lwd = 1, ...) {
 
   if ( is.data.frame(x) )
     x <- as.matrix(x)
-  
+
   ### Skeleton model (see human-modelling.vsd):
   model.y <- c(ankle=0, knee=7, wrist=12, hip=13, hipbase=15, pelvis=16,
                waist=17, elbow=20, chest=24, shoulder=26,
@@ -49,10 +43,10 @@ skeletonplot <- function(x, skel.width=100, skel.height=200,
 
   ### One skeleton instance:
   one.skeleton <- function(x, x0=0) {
-    
+
     # Calculate instance:
     skel.y <- model.y * x['Height']
-  
+
     skel.x.leg <- model.x.leg * (x['Bitro'] / 2)
     skel.x.spine <- model.x.spine
     skel.x.arm <- model.x.arm * (x['Biac'] / 2)
@@ -64,16 +58,16 @@ skeletonplot <- function(x, skel.width=100, skel.height=200,
                                     wrist=unname(x['WristDiam'])/2,
                                     knee=unname(x['KneeDiam'])/2,
                                     ankle=unname(x['AnkleDiam'])/2) / 2
-    
+
     skel.rectangles <- rbind(chest=c(width=unname(x['ChestDiam']),
                                height=unname(x['ChestDp'])),
                              pelvis=c(width=unname(x['Biil']), height=0))
-                                   
-    
+
+
     # Plot it:
     lines(x0 + skel.x.spine, skel.y[names(skel.x.spine)],
           lwd=skel.lwd, ...)
-    
+
     lines(x0 + c(skel.x.spine['hipbase'], skel.x.leg),
           c(skel.y['hipbase'], skel.y[names(skel.x.leg)]),
           lwd=skel.lwd, ...)
@@ -102,7 +96,7 @@ skeletonplot <- function(x, skel.width=100, skel.height=200,
                 circles=skel.circles, rectangles=skel.rectangles))
   }
 
-  
+
   ### Plot:
   nskels <- nrow(x)
 
@@ -121,17 +115,17 @@ skeletonplot <- function(x, skel.width=100, skel.height=200,
 
   # Skeletons:
   skels <- list()
-  
+
   for ( i in 1:nskels ) {
     x0 <- (i-1) * skel.width + (skel.width/2)
 
     skels[[i]] <- one.skeleton(x[i,], x0=x0)
 
-    if ( mtext ) 
+    if ( mtext )
       mtext(paste('Archetype', i), side=3, line=0, at=x0)
   }
 
-  
+
   invisible(skels)
 }
 
@@ -142,8 +136,11 @@ skeletonplot <- function(x, skel.width=100, skel.height=200,
 #' Displays a generic skeleton with annotations explaining the
 #' measurements available in data set \code{\link{skel}}.
 #'
-#' @seealso \code{\link{skeletonplot}}, \code{\link{skel}}
+#' @return Generic skeleton instance.
 #' @export
+#' @rdname skeletonplot
+#' @usage
+#'   jd()
 jd <- function() {
   jd <- rbind(c(AnkleDiam=13.9, KneeDiam=18.8, WristDiam=10.5, Bitro=32.0,
                 Biil=27.8, ElbowDiam=13.4, ChestDiam=28.0, ChestDp=15,
@@ -152,7 +149,7 @@ jd <- function() {
   s <- skeletonplot(jd, skel.height=190,
                     mtext=FALSE, xlim=c(-100,200), skel.lwd=1)[[1]]
 
-  
+
   ### Annotate JD:
   acol <- gray(0.5)
 
@@ -169,10 +166,10 @@ jd <- function() {
   annotation2 <- function(text, xb, xd, y, offset, alen=-30) {
     x0 <- xb - xd
     x1 <- xb + xd
-    
+
     lines(c(x0, x0), c(y, y+offset), col=acol)
     lines(c(x1, x1), c(y, y+offset), col=acol)
-  
+
     arrows(x0, y+offset, x1, y+offset,
            code=3, length=0.1, col=acol)
 
@@ -180,12 +177,12 @@ jd <- function() {
 
     text(labels=text, x=x0+alen, y=y+offset, pos=2, col=acol)
   }
-  
+
 
   annotation1('Diameter of ankle',
               s$x0 + s$x['ankle'] + s$circles['ankle'],
               s$y['ankle'])
-  
+
   annotation1('Diameter of knee',
               s$x0 + s$x['knee'] + s$circles['knee'],
               s$y['knee'])
@@ -205,10 +202,10 @@ jd <- function() {
   annotation1('Height',
               s$x0 + s$x['top'],
               s$y['top'])
-  
+
   annotation2('Diameter between\nhips (bitrochanteric)',
               s$x0, s$x['hip'], s$y['hip'] - s$circles['hip'], -15)
-                
+
   annotation2('Diameter between\nshoulders (biacromial)',
               s$x0, s$x['shoulder'], s$y['shoulder'] + s$circles['shoulder'], 10)
 

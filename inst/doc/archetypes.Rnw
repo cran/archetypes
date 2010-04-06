@@ -5,7 +5,7 @@
 \usepackage{float}
 
 \clubpenalty = 10000
-\widowpenalty = 10000 
+\widowpenalty = 10000
 \displaywidowpenalty = 10000
 
 \author{Manuel J. A. Eugster\\{\small
@@ -27,6 +27,8 @@ This introduction to the \proglang{R} package \pkg{archetypes} is a
 (slightly) modified version of \citet{Eugster+Leisch@2009}, published
 in the {\it Journal of Statistical Software}.
 
+\bigskip
+
 Archetypal analysis has the aim to represent observations in a
 multivariate data set as convex combinations of extremal points. This
 approach was introduced by \citet{Cutler+Breiman@1994}; they defined
@@ -47,7 +49,7 @@ package is demonstrated on two examples.
   80539 Munich, Germany\\
   E-mail: \email{Manuel.Eugster@stat.uni-muenchen.de}\\
   URL: \url{http://www.statistik.lmu.de/~eugster/}
-  
+
   \medskip
   Friedrich Leisch\\
   Department of Statistics\\
@@ -67,7 +69,7 @@ package is demonstrated on two examples.
 \SweaveOpts{eps=FALSE, keep.source=TRUE}
 <<echo=FALSE,print=FALSE,results=HIDE>>=
 options(width=80, prompt='R> ')
-@ 
+@
 
 \begin{document}
 
@@ -139,7 +141,7 @@ archetypes according to the two fundamentals:
 	with $\alpha$, the coefficients of the archetypes, an $n \times k$
 	matrix; the elements are required to be greater equal $0$ and
 	their sum must be $1$, i.e., $\sum_{j=1}^{k} \alpha_{ij} = 1$
-	with $\alpha_{ij} \geq 0$ and $i = 1, \ldots, n$. $\|\cdot\|_2$ 
+	with $\alpha_{ij} \geq 0$ and $i = 1, \ldots, n$. $\|\cdot\|_2$
 	denotes an appropriate matrix norm.
 
 	\item The archetypes are convex combinations of the data points:
@@ -153,10 +155,10 @@ archetypes according to the two fundamentals:
 \end{enumerate}
 These two fundamentals also define the basic principles of the
 estimation algorithm:
-it alternates between finding the best $\alpha$ for given 
+it alternates between finding the best $\alpha$ for given
 archetypes $Z$ and finding the best archetypes $Z$ for given
 $\alpha$; at each step several convex least squares problems are
-solved, the overall $\mbox{RSS}$ is reduced successively. 
+solved, the overall $\mbox{RSS}$ is reduced successively.
 
 With a view to the implementation, the algorithm consists of the
 following steps:
@@ -174,7 +176,7 @@ following steps:
 	sufficiently small or the number of maximum iterations is reached:
 
 	\begin{enumerate}
-		[label=\arabic{enumi}.\arabic{enumii}., 
+		[label=\arabic{enumi}.\arabic{enumii}.,
 		ref=\arabic{enumi}.\arabic{enumii}, itemsep=6pt]
 
 		\item\label{alg:loop-alpha} Find best $\alpha$ for
@@ -185,7 +187,7 @@ following steps:
 			\mbox{ subject to} \; \alpha_i \geq 0 \;
 			\mbox{ and } \; \sum_{j=1}^{k} \alpha_{ij} = 1\mbox{.}
 		\]
-		
+
 		\item\label{alg:loop-zt} Recalculate archetypes $\tilde{Z}$:
 		solve system of linear equations $X = \alpha \tilde{Z}^{\top}$.
 
@@ -194,7 +196,7 @@ following steps:
 		squares problems ($j = 1, \ldots, k$)
 		\[
 			\min_{\beta_j} \frac{1}{2} \|\tilde{Z}_j - X \beta_j\|_2
-			\mbox{ subject to} \; \beta_j \ge 0 \; 
+			\mbox{ subject to} \; \beta_j \ge 0 \;
 			\mbox{ and } \; \sum_{i=1}^{n} \beta_{ji} = 1\mbox{.}
 		\]
 
@@ -208,7 +210,7 @@ following steps:
 	archetypes.
 \end{enumerate}
 The algorithm has to deal with several numerical problems,
-i.e. systems of linear equations and convex least squares 
+i.e. systems of linear equations and convex least squares
 problems. In the following we explain each step in detail.
 
 \paragraph{Solving the convex least squares problems:} In Step
@@ -220,7 +222,7 @@ see,e.g.,][]{Luenberger@1984}. In detail, the problems to solve are of
 the form  $\|u - Tw\|_2$  with $u, w$ vectors and $T$ a matrix, all of
 appropriate dimensions, and the non-negativity and equality
 constraints. The penalized version adds an extra element $M$ to $u$
-and to each observation of $T$; then 
+and to each observation of $T$; then
 \[
 	\|u - Tw\|_2 + M^2 \|1 - w\|_2
 \]
@@ -295,7 +297,7 @@ The package is loaded into \proglang{R} using the
 \code{library()} or \code{require()} command:
 <<echo=FALSE>>=
 library(archetypes)
-@ 
+@
 \begin{Schunk}
 \begin{Sinput}
 R> library("archetypes")
@@ -320,7 +322,7 @@ omitted.
 <<eval=FALSE>>=
 data("toy")
 plot(toy)
-@ 
+@
 \begin{figure}[h!t]
 	\centering
 \setkeys{Gin}{width=3in}
@@ -330,7 +332,7 @@ data("toy")
 par(mar = c(2,2,0,0) + 0.1, ps = 9)
 plot(toy, xlab = "", ylab = "", xlim = c(0,20), ylim = c(0,20),
      pch = 19, col = gray(0.7), cex = 0.6)
-@ 
+@
 	\caption{Data set {\tt toy}.}
 	\label{fig:toy-data}
 \end{figure}
@@ -340,8 +342,8 @@ it seems to be a good idea to apply archetypal analysis with $k = 3$
 archetypes.
 <<>>=
 set.seed(1986)
-a <- archetypes(toy, 3)
-@ 
+a <- archetypes(toy, 3, verbose = TRUE)
+@
 During the fit, the function reports its improvement and stops after a
 maximum number of iterations (default is \code{maxIterations = 100})
 or if the improvement is less than a defined value (default is
@@ -353,29 +355,29 @@ in the previous section (\code{family = archetypesFamily()}). The
 result is an \proglang{S}3 \code{archetypes} object,
 <<>>=
 a
-@ 
+@
 containing the three final archetypes:
 <<>>=
-atypes(a)
-@ 
+parameters(a)
+@
 
 The \code{plot()} function visualizes archetypes for two-dimensional
 data sets; for higher-dimensional data sets parallel coordinates are
 used.
 <<eval=FALSE>>=
-plot(a, toy, chull = chull(toy))
-plot(a, toy, adata.show = TRUE)
-@ 
+xyplot(a, toy, chull = chull(toy))
+xyplot(a, toy, adata.show = TRUE)
+@
 \begin{figure}[h!t]
 	\centering
 \setkeys{Gin}{width=6in}
 <<fig=TRUE,echo=FALSE,width=6,height=3>>=
 par(mfrow = c(1,2), mar = c(2,2,0,0)+0.1, ps = 9)
-plot(a, toy, chull = chull(toy), 
-     xlab = "", ylab = "", xlim = c(0, 20), ylim = c(0, 20), cex = 0.6)
-plot(a, toy, adata.show = TRUE, 
-     xlab = "", ylab = "", xlim = c(0, 20), ylim = c(0, 20), cex = 0.6)
-@ 
+xyplot(a, toy, chull = chull(toy),
+       xlab = "", ylab = "", xlim = c(0, 20), ylim = c(0, 20), cex = 0.6)
+xyplot(a, toy, adata.show = TRUE,
+       xlab = "", ylab = "", xlim = c(0, 20), ylim = c(0, 20), cex = 0.6)
+@
 	\caption{Visualization of three archetypes.}
 	\label{fig:toy-a}
 \end{figure}
@@ -391,29 +393,29 @@ plot is based on an idea and \proglang{MATLAB} source code of
 
 With \code{saveHistory = TRUE} (which is set per default) each step of
 the execution is saved and we can examine the archetypes in each
-iteration using the \code{ahistory()} command; the initial archetypes,
-for example, are \code{ahistory(a, step = 0)}. This can be used to
+iteration using the \code{a\$history} memento object; the initial archetypes,
+for example, are \code{a\$history\$get(0)}. This can be used to
 create an ``evolution movie'' of the archetypes,
 <<eval=FALSE>>=
 movieplot(a, toy)
-@ 
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=6in}
 <<fig=TRUE,echo=FALSE,width=6,height=3>>=
 par(mfrow = c(2, 4), mar = c(0, 0, 0, 0) + 0.1, ps = 9)
-movieplot(a, toy, xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, axes = FALSE, 
+movieplot(a, toy, xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, axes = FALSE,
           postfn = function(iter) {
             box()
             text(1, 19, paste(iter + 1, ".", sep = ""), cex = 1)
           })
-@ 
+@
 	\caption{Visualization of the algorithm
           iterations.}
 	\label{fig:toy-movieplot}
 \end{figure}
-The figure shows the plots of the eight steps (the random
-initialization and the seven iterations) from top to  bottom and left
+The figure shows the plots of the seven steps (the random
+initialization and the six iterations) from top to  bottom and left
 to right. In each step the three archetypes move further to the three
 corners of the data set. A movie of the approximated data is shown when
 setting parameter \code{show = "adata"}\footnote{Real animations are
@@ -422,37 +424,37 @@ setting parameter \code{show = "adata"}\footnote{Real animations are
 
 In the previous section we mentioned that the algorithm should be
 started several times to avoid local minima. This is done using the
-\code{stepArchetypes()} function; it passes all arguments to the 
+\code{stepArchetypes()} function; it passes all arguments to the
 \code{archetypes()} function and additionally has the argument
 \code{nrep} which specifies the number of repetitions.
 <<>>=
 set.seed(1986)
 a4 <- stepArchetypes(data = toy, k = 3, verbose = FALSE, nrep = 4)
-@ 
+@
 The result is an \proglang{S}3 \code{stepArchetypes} object,
 <<>>=
 a4
-@ 
+@
 where \code{summary()} provides an overview of each repetition by
 showing the final residual sum of squares and number of iterations:
 <<>>=
 summary(a4)
-@ 
+@
 There are no huge differences in the residual sum of squares, thus if
 there are different local minima then they are all equally good. But
 the following plot shows that the repetition starts all nearly found
-the same final archetypes (and thus the same local minima), 
+the same final archetypes (and thus the same local minima),
 <<eval=FALSE>>=
-plot(a4, toy)
-@ 
+xyplot(a4, toy)
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=3in}
 <<fig=TRUE,echo=FALSE,width=3,height=3>>=
 par(mar = c(2, 2, 0, 0) + 0.1, ps = 9)
-plot(a4, toy, cex = 0.6, xlim = c(0, 20), ylim = c(0, 20),
-     xlab = "", ylab = "")
-@ 
+xyplot(a4, toy, cex = 0.6, xlim = c(0, 20), ylim = c(0, 20),
+       xlab = "", ylab = "")
+@
 	\caption{Visualization of different repetitions.}
 	\label{fig:toy-a4}
 \end{figure}
@@ -460,10 +462,10 @@ However, the model of repetition $3$ has the lowest residual sum of
 squares and is the best model:
 <<eval=FALSE>>=
 bestModel(a4)
-@ 
+@
 <<echo=FALSE>>=
 print(bestModel(a4), full = FALSE)
-@ 
+@
 
 At the beginning of the example we decided by looking at the data
 that three archetypes may be a good choice. Visual inspection does not
@@ -484,7 +486,7 @@ if ( file.exists(file) ) {
   as <- stepArchetypes(data = toy, k = 1:10, verbose = FALSE, nrep = 4)
   save(as, file = file)
 }
-@ 
+@
 \begin{Schunk}
 \begin{Sinput}
 R> set.seed(1986)
@@ -492,7 +494,7 @@ R> as <- stepArchetypes(data = toy, k = 1:10, verbose = FALSE, nrep = 4)
 \end{Sinput}
 \begin{Soutput}
 There were 23 warnings (use warnings() to see)
-\end{Soutput} 
+\end{Soutput}
 \end{Schunk}
 The occurred warnings indicate that errors occured during the
 execution, in this case, singular matrices in solving the linear
@@ -515,11 +517,11 @@ Warnings:
 In these cases the residual sum of squares is \code{NA}:
 <<>>=
 rss(as)
-@ 
+@
 And all errors occured during the first iteration,
 <<>>=
-iters(as)
-@ 
+t(sapply(as, function(a) sapply(a, '[[', 'iters')))
+@
 which is an indication for an afflicted random initialisation. If
 warnings occur within repetitions for $k_i$ archetypes, the pretended
 meaningful solutions (according to the $RSS$) have to be examined
@@ -531,7 +533,7 @@ residual sum of squares curve of the best models shows that by the
 archetypes:
 <<eval=FALSE>>=
 screeplot(as)
-@ 
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=4in}
@@ -541,7 +543,7 @@ screeplot(as, cex = 0.6, ylim = c(0, 0.08), axes = FALSE)
 mtext("Archetypes", side = 1, line = 2)
 axis(2, las = 2)
 box()
-@ 
+@
 	\caption{Screeplot of the residual sum of squares.}
 	\label{fig:toy-rssplot}
 \end{figure}
@@ -550,9 +552,9 @@ archetypes of the best repetition and their approximation of the data
 are:
 <<eval=FALSE>>=
 a7 <- bestModel(as[[7]])
-plot(a7, toy, chull = chull(toy))
-plot(a7, toy, adata.show = TRUE)
-@ 
+xyplot(a7, toy, chull = chull(toy))
+xyplot(a7, toy, adata.show = TRUE)
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=6in}
@@ -560,10 +562,10 @@ plot(a7, toy, adata.show = TRUE)
 a7 <- bestModel(as[[7]])
 
 par(mfrow = c(1, 2), mar = c(2, 2, 0, 0) + 0.1, ps = 9)
-plot(a7, toy, chull = chull(toy),
-     xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
-plot(a7, toy, adata.show = TRUE,
-     xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
+xyplot(a7, toy, chull = chull(toy),
+       xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
+xyplot(a7, toy, adata.show = TRUE,
+       xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
 @
         \caption{Visualization of seven archetypes.}
         \label{fig:toy-a7}
@@ -583,22 +585,25 @@ if ( file.exists(file) ) {
   load(file = file)
 } else {
   set.seed(1986)
-  gas <- stepArchetypes(data = toy, k = 1:10, family = archetypesFamily("ginv"),
+  gas <- stepArchetypes(data = toy, k = 1:10,
+                        family = archetypesFamily("original",
+                        zalphasfn = archetypes:::ginv.zalphasfn),
                         verbose = FALSE, nrep = 4)
   save(gas, file = file)
 }
-@ 
+@
 \begin{Schunk}
 \begin{Sinput}
 R> set.seed(1986)
-R> gas <- stepArchetypes(data = toy, k = 1:10, 
-+                        family = archetypesFamily("ginv"),
+R> gas <- stepArchetypes(data = toy, k = 1:10,
++                        family = archetypesFamily("original",
++                        zalphasfn = archetypes:::ginv.zalphasfn),
 +                        verbose = FALSE, nrep = 4)
 \end{Sinput}
 \begin{Soutput}
 Loading required package: MASS
 There were 23 warnings (use warnings() to see)
-\end{Soutput} 
+\end{Soutput}
 \end{Schunk}
 We use the \code{ginv()} function from the \pkg{MASS} package to
 calculate the pseudoinverse. The function ignores ill-conditioned
@@ -626,12 +631,12 @@ same number of archetypes $k_i$ during the same repetition. In most of
 these cases the residual sum of squares is about $12$,
 <<>>=
 rss(gas)
-@ 
+@
 and the randomly chosen initial archetypes ``collapse'' to the center
 of the data as we exemplarily see for $k = 9$, $r = 3$:
 <<eval=FALSE>>=
 movieplot(gas[[9]][[3]], toy)
-@ 
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=6in}
@@ -642,7 +647,7 @@ movieplot(gas[[9]][[3]], toy, xlim = c(0, 20), ylim = c(0, 20), cex = 0.6,
             box()
             text(1, 19, paste(iter + 1, ".", sep = ""), cex = 1)
           })
-@ 
+@
 	\caption{Visualization of algorithm iterations until
           ``collapsing''.}
 	\label{fig:toy-movieplot-gas}
@@ -661,9 +666,9 @@ archetypes. The plots of the archetypes and their approximation of the
 data:
 <<eval=FALSE>>=
 ga7 <- bestModel(gas[[7]])
-plot(ga7, toy, chull = chull(toy))
-plot(ga7, toy, adata.show = TRUE)
-@ 
+xyplot(ga7, toy, chull = chull(toy))
+xyplot(ga7, toy, adata.show = TRUE)
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=6in}
@@ -671,10 +676,10 @@ plot(ga7, toy, adata.show = TRUE)
 ga7 <- bestModel(gas[[7]])
 
 par(mfrow = c(1, 2), mar = c(2, 2, 0, 0) + 0.1, ps = 9)
-plot(ga7, toy, chull = chull(toy),
-     xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
-plot(ga7, toy, adata.show = TRUE,
-     xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
+xyplot(ga7, toy, chull = chull(toy),
+       xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
+xyplot(ga7, toy, adata.show = TRUE,
+       xlim = c(0, 20), ylim = c(0, 20), cex = 0.6, xlab = "", ylab = "")
 @
 \caption{Visualization of seven archetypes; one archetype ``collapsed''.}
         \label{fig:toy-a7-gas}
@@ -685,8 +690,8 @@ it. As the data are approximated by a linear combination of archetypes
 and non-negative $\alpha$, the only possibility for this kind of
 approximation is when $\alpha$ for this archetype is always zero:
 <<>>=
-apply(alphas(ga7), 2, range)
-@ 
+apply(coef(ga7, 'alphas'), 2, range)
+@
 As we can see, $\alpha$ of archetype $1$ (column one) is $0$ for all
 data points. Theoretically, this is not possible, but ill-conditioned
 matrices during the fit process lead to such results in
@@ -717,7 +722,7 @@ multivariate standard normal distribution as data generating process
 5, 10, 25, 50$ attributes, $n = 100, 1000, 10000, 10000$ observations
 and $20$ replications in each case. On each data set $k = 1, \ldots,
 10$ archetypes are fitted; stop criteria are $100$ iterations or an
-improvement less than \verb|sqrt(.Machine$double.eps)|.  %$ 
+improvement less than \verb|sqrt(.Machine$double.eps)|.  %$
 Each $m, n, k$ configuration is fitted with randomly chosen initial
 archetypes. For each of the $m \times n \times k \times 20$ fits the
 computation time and the number of iterations until convergence are
@@ -738,7 +743,7 @@ Figure~\ref{fig:rt-iteration} shows the computation time per iteration
 in seconds, i.e., the computation time per fit divided by the number
 of iterations until convergence. In general the behavior is as
 expected: in case of fixed $n$ and $m$ (each individual line),
-increasing number of archetypes imply a linear increase of the 
+increasing number of archetypes imply a linear increase of the
 computation time. Similarly, in case of fixed $k$ and $m$ (dots of same
 color and $x$-axis position, different panels), increasing
 observations imply approximately $10$ times more computation time. And
@@ -790,7 +795,7 @@ measured in centimeters),
 <<>>=
 data("skel")
 skel2 <- subset(skel, select = -Gender)
-@ 
+@
 
 The skeletal measurements consist of nine diameter measurements:
 biacromial (\code{Biac}), shoulder diameter; biiliac (\code{Biil}),
@@ -810,14 +815,14 @@ function \code{jd()} (for ``John Doe'') uses this plot and shows a
 generic individual with explanations of the measurements:
 <<eval=FALSE>>=
 jd()
-@ 
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=6in}
 <<fig=TRUE,echo=FALSE,width=6,height=3.7>>=
 par(mar = c(1, 4, 0, 0) + 0.1, ps = 9)
 jd()
-@ 
+@
 	\caption{Generic skeleton with explanations of the
           measurements.}
         \label{fig:body-jd}
@@ -826,18 +831,18 @@ For visualizing the full data set, parallel coordinates with
 axes arranged according to the ``natural order'' are used,
 <<eval=FALSE>>=
 pcplot(skel2)
-@ 
+@
 \begin{figure}[H]
  	\centering
 \setkeys{Gin}{width=6in}
 <<echo=FALSE>>=
-datacol <- rgb(178, 178, 178, maxColorValue = 255, 
+datacol <- rgb(178, 178, 178, maxColorValue = 255,
                alpha = round(255 * 0.2))
-@ 
+@
 <<eval=FALSE,fig=TRUE,echo=FALSE,width=6,height=4.5>>=
 par(mar = c(5, 0.4, 0, 0.4) + 0.1, ps = 9)
 pcplot(skel2, las = 2, col = datacol)
-@ 
+@
 <<results=tex,echo=FALSE>>=
 png(filename = "body-pcplot-raw.png", units = "px",
     width = 590, height = 430, pointsize = 12)
@@ -845,7 +850,7 @@ par(mar = c(5.5, 0.4, 0, 0.4) + 0.1)
 pcplot(skel2, las = 2, col = datacol)
 graphics.off()
 cat("\\includegraphics{body-pcplot-raw.png}\n")
-@ 
+@
         \caption{Parallel coordinates of the {\tt skel2} data set.}
         \label{fig:body-data}
 \end{figure}
@@ -857,12 +862,12 @@ time,
 file <- "bas.RData"
 if ( file.exists(file) ) {
   load(file = file)
-} else { 
+} else {
   set.seed(1981)
   as <- stepArchetypes(skel2, k = 1:15, verbose = FALSE)
   save(as, file = file)
 }
-@ 
+@
 \begin{Schunk}
 \begin{Sinput}
 R> set.seed(1981)
@@ -878,7 +883,7 @@ contains no \code{NA} values. The corresponding curve of the best
 model in each case is:
 <<eval=FALSE>>=
 screeplot(as)
-@ 
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=5in}
@@ -888,7 +893,7 @@ screeplot(as, cex = 0.6, axes = FALSE)
 mtext("Archetypes", side = 1, line = 2)
 axis(2, las = 2)
 box()
-@ 
+@
 	\caption{Screeplot of the residual sum of squares.}
 	\label{fig:body-rss}
 \end{figure}
@@ -897,22 +902,24 @@ the best number of archetypes. Corresponding to Occam's razor we
 proceed with three archetypes,
 <<>>=
 a3 <- bestModel(as[[3]])
-@ 
+@
 The three archetypes are (transposed for better readability):
 <<>>=
-t(atypes(a3))
-@ 
+t(parameters(a3))
+@
 Or as a barplot in relation to the original data:
 <<eval=FALSE>>=
-barplot(a3, skel2, percentage = TRUE)
-@ 
+barplot(a3, skel2, percentiles = TRUE)
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=5in}
-<<fig=TRUE,echo=FALSE,width=5,height=1.8>>=
+<<fig=TRUE,echo=FALSE,width=5,height=4>>=
 par(mar = c(5, 4, 0.4, 0) + 0.1, ps = 9)
-barplot(a3, skel2, percentage = TRUE, las = 2)
-@ 
+barplot(a3, skel2, percentiles = TRUE,
+        below.compressed.height = 0.4,
+        below.compressed.srt = 90)
+@
 	\caption{Barplot visualizing the three archetypes.}
 	\label{fig:body-barplot}
 \end{figure}
@@ -925,20 +932,20 @@ data with gender information (men are blue, women are green colored,
 with alpha transparency) and the archetypes (red),
 <<eval=FALSE>>=
 pcplot(a3, skel2, data.col = as.numeric(skel$Gender))
-@ 
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=6in}
 <<echo=FALSE>>=
-datacol <- c(rgb(0, 205, 0, maxColorValue = 255, 
+datacol <- c(rgb(0, 205, 0, maxColorValue = 255,
                  alpha = round(255 * 0.2)),
-             rgb(0, 0, 255, maxColorValue = 255, 
+             rgb(0, 0, 255, maxColorValue = 255,
                  alpha=round(255 * 0.2)))
-@ 
+@
 <<eval=FALSE,fig=TRUE,echo=FALSE,width=6,height=4.5>>=
 par(mar = c(5, 0.4, 0, 0.4) + 0.1, ps = 9)
 pcplot(a3, skel2, las = 2, data.col = datacol[skel$Gender])
-@ 
+@
 <<results=tex,echo=FALSE>>=
 png(filename = "body-pcplot-gender.png", units = "px",
     width = 590, height = 430, pointsize = 12)
@@ -946,7 +953,7 @@ par(mar = c(5.5, 0.4, 0, 0.4) + 0.1)
 pcplot(a3, skel2, las = 2, data.col = datacol[skel$Gender])
 graphics.off()
 cat("\\includegraphics{body-pcplot-gender.png}\n")
-@ 
+@
         \caption{Parallel coordinates with colors related to the
           gender and the three archetypes.}
         \label{fig:body-a3}
@@ -959,18 +966,18 @@ the approximation of each individual observation. For three
 archetypes, a ternary plot is a usable graphical representation
 \citep[e.g., package \pkg{vcd} by][]{vcd}:
 <<eval=FALSE>>=
-ternaryplot(alphas(a3), col = as.numeric(skel$Gender))
-@ 
+ternaryplot(coef(a3, 'alphas'), col = as.numeric(skel$Gender))
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=2in}
 <<fig=TRUE,echo=FALSE,width=2,height=2>>=
 library("vcd")
-ternaryplot(alphas(a3), dimnames = 1:3, cex = 0.3,
+ternaryplot(coef(a3, 'alphas'), dimnames = 1:3, cex = 0.3,
             col = datacol[skel$Gender], main = NULL,
             labels = "none", grid = FALSE)
 grid.text("1", x = 3, y = 3)
-@ 
+@
 	\caption{Ternary plot visualizing the $\alpha$, colored
           according to the gender.}
         \label{fig:body-alpha-ternary}
@@ -986,15 +993,15 @@ investigate the coefficients $\alpha$.
 Finally, the \code{skeletonplot()} visualizes the three skeleton
 archetypes:
 <<eval=FALSE>>=
-skeletonplot(atypes(a3))
-@ 
+skeletonplot(parameters(a3))
+@
 \begin{figure}[H]
 	\centering
 \setkeys{Gin}{width=6in}
 <<fig=TRUE,echo=FALSE,width=6,height=3.7>>=
 par(mar = c(1, 4, 0, 0) + 0.1, ps = 9)
-skeletonplot(atypes(a3), skel.height = 190)
-@ 
+skeletonplot(parameters(a3), skel.height = 190)
+@
         \caption{Skeleton plot visualizing the three archetypes.}
         \label{fig:body-a3-real}
 \end{figure}
@@ -1045,7 +1052,7 @@ generalization towards the class of $k$-means-like algorithms.
 
 <<print=TRUE,echo=TRUE>>=
 sessionInfo()
-@ 
+@
 
 The newest released version of \pkg{archetypes} is always available
 from the Comprehensive R Archive Network at

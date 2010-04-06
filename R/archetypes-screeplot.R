@@ -15,7 +15,7 @@
 screeplot.stepArchetypes <- function(x, type=c('lines', 'barplot'), ...) {
   zs <- bestModel(x)
 
-  a <- sapply(zs, ntypes)
+  a <- sapply(zs, nparameters)
   b <- sapply(zs, rss)
 
   if ( type[1] == 'lines' ) {

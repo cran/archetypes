@@ -1,0 +1,16 @@
+
+Changes in archetypes version 2.0
+
+  o cleaned up interface; see '?archetypes-deprecated' and
+    '?archetypes-generics'.
+
+  o added weighted and robust archetypes; see 'demo(robust-toy)' and
+    'demo(robust-ozone)'.
+
+  o added 'memento' environment to save internal states.
+
+  o added panorama plot; see '?panorama.archetypes'
+
+  o improved 'barplot.archetypes'.
+
+

@@ -1,27 +1,24 @@
 Package: archetypes
 Type: Package
 Title: Archetypal Analysis
-Version: 1.0
-Date: 2009-04-23
-Depends: nnls (>= 1.1)
-Suggests: MASS, vcd
+Version: 2.0
+Date: 2010-04-06
+Depends: methods, stats, modeltools, nnls (>= 1.1)
+Suggests: MASS, vcd, mlbench
 Author: Manuel J. A. Eugster <manuel.eugster@stat.uni-muenchen.de>
 Maintainer: Manuel J. A. Eugster <manuel.eugster@stat.uni-muenchen.de>
 Description: The main function archetypes implements a framework for
         archetypal analysis supporting arbitary problem solving
         mechanisms for the different conceputal parts of the algorithm.
-        NOTE: This package is used as real-world test application for
-        the Roxygen documentation system. At the moment, Roxygen does
-        not produce "good" help pages for the everyday use of a
-        package; we refer to the vignette for a consistent package
-        illustration.
 License: GPL (>= 2)
-Revision: 17
+Revision: 41
 Collate: 'archetypes-barplot.R' 'archetypes-class.R'
-        'archetypes-kit-blocks.R' 'archetypes-kit.R'
-        'archetypes-movie.R' 'pcplot.R' 'archetypes-pcplot.R'
-        'archetypes-plot.R' 'archetypes-screeplot.R'
-        'archetypes-step.R' 'skeletonplot.R'
-Packaged: Mon Apr 27 10:29:10 2009; meugster
+        'archetypes-deprecated.R' 'archetypes-kit-blocks.R'
+        'archetypes-kit.R' 'archetypes-movie.R' 'archetypes-panorama.R'
+        'pcplot.R' 'archetypes-pcplot.R' 'archetypes-robust.R'
+        'archetypes-screeplot.R' 'archetypes-step.R'
+        'archetypes-weighted.R' 'archetypes-xyplot.R' 'memento.R'
+        'skeletonplot.R'
+Packaged: 2010-04-06 13:30:36 UTC; meugster
 Repository: CRAN
-Date/Publication: 2009-04-27 09:08:14
+Date/Publication: 2010-04-06 13:55:20

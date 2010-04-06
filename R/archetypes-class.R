@@ -1,6 +1,6 @@
 
 
-#' Archetypes object constructor.
+#' Archetypes object constructor and methods.
 #' @param archetypes The archetypes; a \eqn{p \times m} matrix, see
 #'   \code{\link{atypes}}.
 #' @param k The number of archetypes;
@@ -14,27 +14,42 @@
 #' @param kappas The kappas for each system of linear equations.
 #' @param betas The data coefficients; a \eqn{p \times n} matrix.
 #' @param zas The temporary archetypes.
+#' @param family The archetypes family.
+#' @param familyArgs Additional arguments for family blocks.
+#' @param residuals The residuals.
+#' @param weights The data weights.
+#' @param reweights The data reweights.
 #' @return A list with an element for each parameter and class attribute
 #'   \code{archetypes}.
-#' @seealso \code{\link{archetypes}}, \code{\link{atypes}}, \code{\link{ntypes}},
-#'   \code{\link{rss}}, \code{\link{adata}}, \code{\link{alphas}},
-#'   \code{\link{ahistory}}, \code{\link{nhistory}}
-#' @export
-as.archetypes <- function(archetypes, k, alphas, rss, iters=NULL, call=NULL,
-                          history=NULL, kappas=NULL, betas=NULL, zas=NULL) {
-  
-  return(structure(list(archetypes=archetypes,
-                        k=k,
-                        alphas=alphas,
-                        rss=rss,
-                        iters=iters,
-                        kappas=kappas,
-                        betas=betas,
-                        zas=zas,
-                        call=call,
-                        history=history),
-                   class='archetypes'))  
+#' @seealso \code{\link{archetypes}}
+#' @rdname archetypes-class
+#' @aliases archetypes-class
+as.archetypes <- function(archetypes, k, alphas, rss, iters = NULL, call = NULL,
+                          history = NULL, kappas = NULL, betas = NULL, zas = NULL,
+                          family = NULL, familyArgs = NULL, residuals = NULL,
+                          weights = NULL, reweights = NULL) {
+
+  return(structure(list(archetypes = archetypes,
+                        k = k,
+                        alphas = alphas,
+                        rss = rss,
+                        iters = iters,
+                        kappas = kappas,
+                        betas = betas,
+                        zas = zas,
+                        call = call,
+                        history = history,
+                        family = family,
+                        familyArgs = familyArgs,
+                        residuals = residuals,
+                        weights = weights,
+                        reweights = reweights),
+                   class = c(family$class, 'archetypes')))
 }
+
+
+
+setOldClass('archetypes')
 
 
 
@@ -45,211 +60,128 @@ as.archetypes <- function(archetypes, k, alphas, rss, iters=NULL, call=NULL,
 #' @return Undefined.
 #' @method print archetypes
 #' @S3method print archetypes
-print.archetypes <- function(x, full=TRUE, ...) {
+#' @nord
+print.archetypes <- function(x, full = TRUE, ...) {
   if ( full ) {
     cat('Archetypes object\n\n')
-    cat(deparse(x$call), '\n\n')
+    cat(paste(deparse(x$call), collapse = '\n'), '\n\n')
   }
-  
+
   cat('Convergence after', x$iters, 'iterations\n')
-  cat('with RSS = ', rss(x), '.\n', sep='')
+  cat('with RSS = ', rss(x), '.\n', sep = '')
 }
 
 
 
-#' Archetypes getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return Archetypes matrix.
-#' @export
-atypes <- function(zs, ...) {
-  UseMethod('atypes')
-}
-
-#' Archetypes getter.
-#' @param zs An \code{archetypes} object.
+#' Return fitted data, i.e. archetypes data approximation.
+#' @param object An \code{archetypes}-related object.
 #' @param ... Ignored.
-#' @return Archetypes matrix.
-#' @method atypes archetypes
-#' @S3method atypes archetypes
-atypes.archetypes <- function(zs, ...) {
-  return(zs$archetypes)
+#' @return Matrix with approximated data.
+#' @method fitted archetypes
+#' @importFrom stats fitted
+#' @S3method fitted archetypes
+#' @rdname archetypes-class
+fitted.archetypes <- function(object, ...) {
+  t(t(object$archetypes) %*% t(object$alphas))
 }
 
 
 
-#' Number of archetypes getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return Number of archetypes.
-#' @export
-ntypes <- function(zs, ...) {
-  UseMethod('ntypes')
+#' Return fitted archetypes.
+#' @param object An \code{archetypes} object.
+#' @param ... Ignored.
+#' @return Matrix with \eqn{k} archetypes.
+#' @nord
+.parameters.archetypes <- function(object, ...) {
+  object$archetypes
 }
 
-#' @S3method ntypes archetypes
-ntypes.archetypes <- function(zs, ...) {
-  return(zs$k)
+#' Return fitted archetypes.
+#' @param object An \code{archetypes} object.
+#' @param ... Ignored.
+#' @return Matrix with \eqn{k} archetypes.
+#' @importFrom modeltools parameters
+#' @rdname archetypes-class
+setMethod('parameters',
+          signature = signature(object = 'archetypes'),
+          .parameters.archetypes)
+
+
+
+#' Return coefficients.
+#' @param object An \code{archetypes} object.
+#' @param type Return alphas or betas.
+#' @param ... Ignored.
+#' @return Coefficient matrix.
+#' @method coef archetypes
+#' @importFrom stats coef
+#' @S3method coef archetypes
+#' @rdname archetypes-class
+coef.archetypes <- function(object, type = c('alphas', 'betas'), ...) {
+  type <- match.arg(type)
+  object[[type]]
+}
+
+
+#' Return residuals.
+#' @param object An \code{archetypes} object.
+#' @param ... Ignored.
+#' @return Matrix with residuals.
+#' @method residuals archetypes
+#' @importFrom stats residuals
+#' @S3method residuals archetypes
+#' @rdname archetypes-class
+residuals.archetypes <- function(object, ...) {
+  object$residuals
 }
 
 
 
-#' Residual sum of squares getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
+#' Residual sum of squares.
+#' @param object An object.
+#' @param ... Ignored.
 #' @return Residual sum of squares.
 #' @export
-rss <- function(zs, ...) {
+#' @rdname archetypes-generics
+rss <- function(object, ...) {
   UseMethod('rss')
 }
 
 #' Residual sum of squares getter.
-#' @param zs An \code{archetypes} object.
+#' @param object An \code{archetypes} object.
+#' @param type Return scaled, single or global RSS.
 #' @param ... Ignored.
 #' @return Residual sum of squares.
 #' @method rss archetypes
 #' @S3method rss archetypes
-rss.archetypes <- function(zs, ...) {
-  return(zs$rss)
+#' @rdname archetypes-class
+rss.archetypes <- function(object, type = c('scaled', 'single', 'global'), ...) {
+  type <- match.arg(type)
+  resid <- residuals(object)
+
+  switch(type,
+         scaled = object$rss,
+         single = apply(resid, 1, object$family$normfn),
+         global = object$family$normfn(resid) / nrow(resid))
 }
 
 
 
-#' Archetypes data approximation.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return Approximated data matrix.
-#' @export
-adata <- function(zs, ...) {
-  UseMethod('adata')
-}
-
-#' Archetypes data approximation.
-#' @param zs An \code{archetypes} object.
+#' Return weights.
+#' @param object An \code{archetypes} object.
+#' @param type Return global weights (weighted archetypes) or
+#'   weights calculated during the iterations (robust archetypes).
 #' @param ... Ignored.
-#' @return Approximated data matrix.
-#' @method adata archetypes
-#' @S3method adata archetypes
-adata.archetypes <- function(zs, ...) {
-  return(t(t(zs$archetypes) %*% t(zs$alphas)))
+#' @return Vector of weights.
+#' @method weights archetypes
+#' @importFrom stats weights
+#' @S3method weights archetypes
+#' @rdname archetypes-class
+weights.archetypes <- function(object, type = c('weights', 'reweights'), ...) {
+  type <- match.arg(type)
+  object[[type]]
 }
 
-
-
-#' Alpha getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return Alpha matrix.
-#' @export
-alphas <- function(zs, ...) {
-  UseMethod('alphas')
-}
-
-#' Alpha getter.
-#' @param zs An \code{archetypes} object.
-#' @param ... Ignored.
-#' @return Alpha matrix.
-#' @method alphas archetypes
-#' @S3method alphas archetypes
-alphas.archetypes <- function(zs, ...) {
-  return(zs$alphas)
-}
-
-
-
-#' Beta getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return Beta matrix.
-#' @export
-betas <- function(zs, ...) {
-  UseMethod('betas')
-}
-
-#' Beta getter.
-#' @param zs An \code{archetypes} object.
-#' @param ... Ignored.
-#' @return Beta matrix.
-#' @method betas archetypes
-#' @S3method betas archetypes
-betas.archetypes <- function(zs, ...) {
-  return(zs$betas)
-}
-
-
-
-#' Iteration getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return Number of iterations.
-#' @export
-iters <- function(zs, ...) {
-  UseMethod('iters')
-}
-
-#' Iteration getter.
-#' @param zs An \code{archetypes} object.
-#' @param ... Ignored.
-#' @return Number of iterations.
-#' @method iters archetypes
-#' @S3method iters archetypes
-iters.archetypes <- function(zs, ...) {
-  return(zs$iters)
-}
-
-
-
-#' Archetypes history getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return The \code{archetypes} object of the requested step.
-#' @export
-ahistory <- function(zs, ...) {
-  UseMethod('ahistory')
-}
-
-#' Archetypes history getter.
-#' @param zs An \code{archetypes} object.
-#' @param step The step number to return.
-#' @param ... Ignored.
-#' @return The \code{archetypes} object of the requested step.
-#' @method ahistory archetypes
-#' @S3method ahistory archetypes
-ahistory.archetypes <- function(zs, step, ...) {
-  if ( is.null(zs$history) )
-    stop('No history available')
-
-  if ( step >= 0 )
-    s <- paste('s', step, sep='')
-  else
-    s <- paste('s', nhistory(zs) + step - 1, sep='')
-  
-  return(zs$history[[s]][[1]])
-}
-
-
-
-#' Number of history steps getter.
-#' @param zs An \code{archetypes}-related object.
-#' @param ... Further arguments.
-#' @return The number of history steps available.
-#' @export
-nhistory <- function(zs, ...) {
-  UseMethod('nhistory')
-}
-
-#' Archetypes number of history steps getter.
-#' @param zs An \code{archetypes} object.
-#' @param ... Ignored.
-#' @return The number of history steps available.
-#' @method nhistory archetypes
-#' @S3method nhistory archetypes
-nhistory.archetypes <- function(zs, ...) {
-  if ( is.null(zs$history) )
-    stop('No history available')
-
-  return(length(zs$history))
-}
 
 
 #' Kappa getter.
@@ -258,6 +190,58 @@ nhistory.archetypes <- function(zs, ...) {
 #' @return A vector of kappas.
 #' @method kappa archetypes
 #' @S3method kappa archetypes
+#' @rdname archetypes-class
 kappa.archetypes <- function(z, ...) {
   return(z$kappas)
+}
+
+
+
+#' Predict coefficients or data based on archetypes.
+#' @param object An \code{archetypes} object.
+#' @param type Predict alphas or data.
+#' @param ... Ignored.
+#' @return Prediction.
+#' @method predict archetypes
+#' @S3method predict archetypes
+#' @nord
+predict.archetypes <- function(object, newdata = NULL,
+                               type = c('alphas', 'data'), ...) {
+  type <- match.arg(type)
+
+  if ( is.null(newdata) )
+    return(switch(type,
+                  alphas = coef(object, type = 'alphas'),
+                  data = fitted(object)))
+
+  stop('Not implemented yet.')
+
+  ### Something like the following ...
+  #if ( type == 'alphas' )
+  #  object$family$alphasfn(NULL, t(object$archetypes), t(newdata))
+}
+
+
+
+#' Number of parameters.
+#' @param object An object.
+#' @param ... Further arguments.
+#' @return Number of parameters.
+#' @export
+#' @rdname archetypes-generics
+nparameters <- function(object, ...) {
+  UseMethod('nparameters')
+}
+
+
+
+#' Number of archetypes
+#' @param object An \code{archetypes}-related object.
+#' @param ... Further arguments.
+#' @return Number of archetypes.
+#' @method nparameters archetypes
+#' @S3method nparameters archetypes
+#' @rdname archetypes-class
+nparameters.archetypes <- function(object, ...) {
+  return(object$k)
 }

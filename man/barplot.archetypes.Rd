@@ -1,13 +1,22 @@
 \name{barplot.archetypes}
 \alias{barplot.archetypes}
 \title{Barplot of archetypes.}
-\usage{\method{barplot}{archetypes} (height, data, beside=TRUE,
-    percentage=FALSE, ...)}
+\usage{\method{barplot}{archetypes}(height, data, which=c("below", "beside"), which.beside=c("atypes",
+    "variables"), which.below=c("compressed", "default"),
+    percentiles=FALSE, below.compressed.height=0.1,
+    below.compressed.srt=0, ...)
+}
 \description{Barplot of archetypes.}
 \value{Undefined.}
 \arguments{\item{height}{An \code{\link{archetypes}} object.}
 \item{data}{The original data matrix.}
-\item{beside}{Portray the archetypes as stacked bars.}
-\item{percentage}{Show real values or percentages according to the
-original data.}
-\item{...}{Passed to the underlying \code{\link{barplot}} call.}}
+\item{which}{\code{below} creates a barplot for each archetype,
+\code{beside} creates one barplot with bars side by side.}
+\item{which.beside}{Barplot according to \code{atypes} or \code{variables}.}
+\item{which.below}{\code{compressed} plots the labels only once.}
+\item{percentiles}{Show real values or percentile profiles.}
+\item{below.compressed.height}{Height of additional tail subplot.}
+\item{below.compressed.srt}{Rotations of the x-labels.}
+\item{...}{Passed to the underlying \code{\link{barplot}} call.}
+}
+
