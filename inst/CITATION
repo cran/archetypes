@@ -1,4 +1,3 @@
-citHeader("To cite package archetypes in publications use:")
 
 citEntry(entry="Article",
 	title="{From {S}pider-{M}an to {H}ero -- Archetypal Analsis in {R}",
@@ -10,10 +9,31 @@ citEntry(entry="Article",
 	number="8",
 	pages="1--23",
 	url="http://www.jstatsoft.org/v30/i08/",
+
+	header="To cite package archetypes in publications use:",
 	
 	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch.",
 		"From Spider-Man to Hero -- Archetypal Analysis in R.",
 		"Journal of Statistical Software, 30(8), 1-23, 2009.",
 		"http://www.jstatsoft.org/v30/i08/")
+)
+
+
+citEntry(entry="Article",
+	title="Weighted and Robust Archetypal Analysis",
+	author=personList(as.person("Manuel J. A. Eugster"),
+		as.person("Friedrich Leisch")),
+	journal="Technical Report 82, Department of Statistics, Ludwig-Maximilians-Universitaet Muenchen, Germany",
+	year="2010",
+	volume="82",
+	pages="1--13",
+	url="http://epub.ub.uni-muenchen.de/11498/",
+
+	header="To cite weighted and robust archetypes in publications use:",
+	
+	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch.",
+		"Weighted and Robust Archetypal Analysis",
+		"Technical Report 82, Department of Statistics, Ludwig-Maximilians-Universitaet Muenchen, Germany. 2010.",
+		"http://epub.ub.uni-muenchen.de/11498/")
 )
 

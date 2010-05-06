@@ -50,6 +50,9 @@ no.scalefn <- function(x, ...) {
 #' @return Archetypes zs.
 #' @nord
 no.rescalefn <- function(x, zs, ...) {
+  if ( is.null(zs) )
+    return(matrix(NA, nrow = 0, ncol = 0))
+
   return(zs)
 }
 

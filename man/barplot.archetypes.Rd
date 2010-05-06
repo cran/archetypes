@@ -4,7 +4,7 @@
 \usage{\method{barplot}{archetypes}(height, data, which=c("below", "beside"), which.beside=c("atypes",
     "variables"), which.below=c("compressed", "default"),
     percentiles=FALSE, below.compressed.height=0.1,
-    below.compressed.srt=0, ...)
+    below.compressed.srt=0, col.atypes, ...)
 }
 \description{Barplot of archetypes.}
 \value{Undefined.}
@@ -17,6 +17,7 @@
 \item{percentiles}{Show real values or percentile profiles.}
 \item{below.compressed.height}{Height of additional tail subplot.}
 \item{below.compressed.srt}{Rotations of the x-labels.}
+\item{col.atypes}{Color of archetypes; only used in \code{below.compressed}.}
 \item{...}{Passed to the underlying \code{\link{barplot}} call.}
 }
 

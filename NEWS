@@ -1,4 +1,14 @@
 
+Changes in archetypes version 2.0-1
+
+  o 'no.scalefn' returns an empty matrix if 'zs' is null.
+
+  o 'xyplot.weightedArchetypes' displays the main diagonal if
+    'weights' is a matrix.
+
+  o Technical report on robust and weighted archetypes is cited.
+
+
 Changes in archetypes version 2.0
 
   o cleaned up interface; see '?archetypes-deprecated' and

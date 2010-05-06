@@ -10,6 +10,7 @@
 #' @param percentiles Show real values or percentile profiles.
 #' @param below.compressed.height Height of additional tail subplot.
 #' @param below.compressed.srt Rotations of the x-labels.
+#' @param col.atypes Color of archetypes; only used in \code{below.compressed}.
 #' @param ... Passed to the underlying \code{\link{barplot}} call.
 #' @return Undefined.
 #' @method barplot archetypes
@@ -21,7 +22,8 @@ barplot.archetypes <- function(height, data,
                                which.below = c('compressed', 'default'),
                                percentiles = FALSE,
                                below.compressed.height = 0.1,
-                               below.compressed.srt = 0, ...) {
+                               below.compressed.srt = 0, 
+                               col.atypes = NULL, ...) {
 
   ### Helpers:
   .beside.atypes <- function() {
@@ -53,7 +55,7 @@ barplot.archetypes <- function(height, data,
     for ( i in 1:(p - 1) ) {
       par(mar = c(0, 5, 1, 0) + 0.1)
       x.at <- barplot(atypes[i,], ylab = ylab, ylim = ylim,
-                      names.arg = '', las = 2, ...)
+                      names.arg = '', las = 2, col = col.atypes[i], ...)
       mtext(sprintf('Archetype %s', i), side = 2, line = 4,
             cex = par('cex'))
     }
@@ -79,6 +81,7 @@ barplot.archetypes <- function(height, data,
     which.arg <- match.arg(which.beside)
   else
     which.arg <- match.arg(which.below)
+   
 
   atypes <- parameters(height)
   rownames(atypes) <- sprintf('Archetype %s',

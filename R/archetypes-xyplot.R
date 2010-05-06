@@ -120,7 +120,10 @@ xyplot.weightedArchetypes <- function(x, y, data.col = 1,
                                       link.col = NULL, link.lty = NULL,
                                       weights.type = 'weights', ...) {
 
-  w <- 1 - weights(x, type = weights.type)
+  w <- weights(x, type = weights.type)
+  if ( is.matrix(w) )
+    w <- diag(w)
+  w <- 1 - w
 
   if ( is.null(link.col) )
     link.col <- ifelse(w == 1, 1, data.bg(w))
