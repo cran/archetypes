@@ -1,4 +1,10 @@
 
+Changes in archetypes version 2.0-2
+
+  o Added analysis of the simulation study for robust archetypes
+    as demo.
+
+
 Changes in archetypes version 2.0-1
 
   o 'no.scalefn' returns an empty matrix if 'zs' is null.
