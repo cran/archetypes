@@ -19,7 +19,6 @@
 #' @return Undefined.
 #' @method pcplot archetypes
 #' @S3method pcplot archetypes
-#' @rdname pcplot
 pcplot.archetypes <- function(x, data, data.col=gray(0.7), data.lwd=1,
                               atypes.col=2, atypes.lwd=2, atypes.lty=1,
                               chull=NULL, chull.col=1, chull.lwd=2, chull.lty=1, ...) {
@@ -30,7 +29,7 @@ pcplot.archetypes <- function(x, data, data.col=gray(0.7), data.lwd=1,
     lines.pcplot(data[chull,], data,
                  col=chull.col, lwd=chull.lwd, lty=chull.lty, ...)
 
-  lines.pcplot(atypes(x), data,
+  lines.pcplot(parameters(x), data,
                col=atypes.col, lwd=atypes.lwd, lty=atypes.lty, ...)
 }
 

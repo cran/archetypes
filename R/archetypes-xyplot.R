@@ -5,7 +5,6 @@
 #' @param ... Further arguments.
 #' @return Undefined.
 #' @export
-#' @rdname archetypes-generics
 xyplot <- function(x, ...) {
   UseMethod('xyplot')
 }
@@ -15,7 +14,7 @@ xyplot <- function(x, ...) {
 #' Helper function to calculate the approximated convex hull.
 #' @param zs An \code{archetypes} object.
 #' @return Matrix with the points.
-#' @nord
+#' @noRd
 ahull <- function(zs) {
   a <- rbind(parameters(zs), parameters(zs)[1,])
   xc <- a[,1]; xm <- mean(xc)
@@ -60,7 +59,6 @@ ahull <- function(zs) {
 #'   idea and Matlab source code of Bernard Pailthorpe.
 #' @method xyplot archetypes
 #' @export
-#' @rdname xyplot
 xyplot.archetypes <- function(x, y,
                               data.col = 1, data.pch = 19, data.bg = NULL,
                               atypes.col = 2, atypes.pch = 19,
@@ -114,7 +112,6 @@ xyplot.archetypes <- function(x, y,
 #' @param ... Arguments of \code{\link{xyplot.archetypes}}.
 #' @method xyplot weightedArchetypes
 #' @S3method xyplot weightedArchetypes
-#' @rdname xyplot
 xyplot.weightedArchetypes <- function(x, y, data.col = 1,
                                       data.pch = 21, data.bg = gray,
                                       link.col = NULL, link.lty = NULL,
@@ -148,7 +145,6 @@ xyplot.weightedArchetypes <- function(x, y, data.col = 1,
 #'   \code{\link{xyplot.robustArchetypes}}
 #' @method xyplot robustArchetypes
 #' @S3method xyplot robustArchetypes
-#' @rdname xyplot
 xyplot.robustArchetypes <- function(x, y, ...) {
   xyplot.weightedArchetypes(x, y, weights.type = 'reweights', ...)
 }
@@ -169,7 +165,6 @@ xyplot.robustArchetypes <- function(x, y, ...) {
 #' @method xyplot stepArchetypes
 #' @S3method xyplot stepArchetypes
 #' @export
-#' @rdname xyplot
 xyplot.stepArchetypes <- function(x, y,
                                   data.col=gray(0.7), data.pch=19,
                                   atypes.col=(seq_len(length(x) * length(x[[1]]))+1),

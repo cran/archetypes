@@ -1,17 +1,22 @@
+#' @include archetypes-class.R
+#' @include archetypes-kit.R
 #' @include archetypes-kit-blocks.R
 {}
 
 
 
-#' Robust archetypes.
-#' @param data A numeric \eqn{n \times m} data matrix.
-#' @param k The number of archetypes.
-#' @param familyBlocks Exchange predefined family blocks.
-#' @param ... Arguments available for \code{\link{archetypes}}.
+#' Robust archetypes
+#'
+#' @inheritParams archetypes
+#' @param familyBlocks Exchange predefined family blocks; see
+#'   \code{\link{archetypesFamily}}.
+#'
 #' @return An object of class \code{robustArchetypes} and
-#'   \code{\link{archetypes-class}}.
+#'   \code{\link{as.archetypes}}.
+#'
+#' @family archetypes
+#'
 #' @export
-#' @rdname archetypes
 robustArchetypes <- function(data, k, familyBlocks = list(), ...) {
 
   family <- do.call(archetypesFamily, c(list('robust'), familyBlocks))
@@ -21,9 +26,6 @@ robustArchetypes <- function(data, k, familyBlocks = list(), ...) {
 
 
 
-#' Robust family constructor helper.
-#' @return A list of blocks.
-#' @nord
 .robust.archetypesFamily <- function() {
   f <- .original.archetypesFamily()
   f$class <- 'robustArchetypes'
@@ -34,17 +36,4 @@ robustArchetypes <- function(data, k, familyBlocks = list(), ...) {
 
 
 
-setOldClass('robustArchetypes')
-
-
-
-#' Return fitted archetypes.
-#' @param object An \code{robustArchetypes} object.
-#' @param ... Ignored.
-#' @return Matrix with \eqn{k} archetypes.
-#' @importFrom modeltools parameters
-#' @nord
-setMethod('parameters',
-          signature = signature(object = 'robustArchetypes'),
-          .parameters.archetypes)
-
+setOldClass(c("robustArchetypes", "archetypes"))

@@ -1,12 +1,16 @@
+#' @include generics.R
+{}
 
 
-#' Archetypes object constructor and methods.
-#' @param archetypes The archetypes; a \eqn{p \times m} matrix, see
-#'   \code{\link{atypes}}.
+
+#' Archetypes object constructor
+#'
+#' @param object The archetypes; a \eqn{p \times m} matrix, see
+#'   \code{\link{parameters}}.
 #' @param k The number of archetypes;
 #' @param alphas The coefficients; a \eqn{n \times p} matrix, see
-#'   \code{\link{alphas}}.
-#' @param rss The residual sum of squares; see \link{rss}.
+#'   \code{\link{coef}}.
+#' @param rss The residual sum of squares; see \code{\link{rss.archetypes}}.
 #' @param iters The number of iterations to the convergence.
 #' @param call The call of the \code{\link{archetypes}} function.
 #' @param history If \code{saveHistory} set then an environment with the
@@ -19,17 +23,20 @@
 #' @param residuals The residuals.
 #' @param weights The data weights.
 #' @param reweights The data reweights.
+#' @param scaling The scaling parameters of the data.
+#'
 #' @return A list with an element for each parameter and class attribute
 #'   \code{archetypes}.
-#' @seealso \code{\link{archetypes}}
-#' @rdname archetypes-class
-#' @aliases archetypes-class
-as.archetypes <- function(archetypes, k, alphas, rss, iters = NULL, call = NULL,
+#'
+#' @family archetypes
+#'
+#' @export
+as.archetypes <- function(object, k, alphas, rss, iters = NULL, call = NULL,
                           history = NULL, kappas = NULL, betas = NULL, zas = NULL,
                           family = NULL, familyArgs = NULL, residuals = NULL,
-                          weights = NULL, reweights = NULL) {
+                          weights = NULL, reweights = NULL, scaling = NULL) {
 
-  return(structure(list(archetypes = archetypes,
+  return(structure(list(archetypes = object,
                         k = k,
                         alphas = alphas,
                         rss = rss,
@@ -43,24 +50,17 @@ as.archetypes <- function(archetypes, k, alphas, rss, iters = NULL, call = NULL,
                         familyArgs = familyArgs,
                         residuals = residuals,
                         weights = weights,
-                        reweights = reweights),
+                        reweights = reweights,
+                        scaling = scaling),
                    class = c(family$class, 'archetypes')))
 }
 
 
 
-setOldClass('archetypes')
+setOldClass(c("archetypes"))
 
 
-
-#' Print method for archetypes object.
-#' @param x An \code{archetypes} object.
-#' @param full Full information or just convergence and rss information.
-#' @param ... Ignored.
-#' @return Undefined.
-#' @method print archetypes
 #' @S3method print archetypes
-#' @nord
 print.archetypes <- function(x, full = TRUE, ...) {
   if ( full ) {
     cat('Archetypes object\n\n')
@@ -73,88 +73,86 @@ print.archetypes <- function(x, full = TRUE, ...) {
 
 
 
-#' Return fitted data, i.e. archetypes data approximation.
-#' @param object An \code{archetypes}-related object.
+#' Return fitted data
+#'
+#' Returns the approximated data.
+#'
+#' @param object An \code{archetypes} object.
 #' @param ... Ignored.
 #' @return Matrix with approximated data.
 #' @method fitted archetypes
+#' @rdname fitted
+#'
 #' @importFrom stats fitted
 #' @S3method fitted archetypes
-#' @rdname archetypes-class
 fitted.archetypes <- function(object, ...) {
   t(t(object$archetypes) %*% t(object$alphas))
 }
 
 
 
-#' Return fitted archetypes.
+#' Return fitted archetypes
+#'
 #' @param object An \code{archetypes} object.
 #' @param ... Ignored.
 #' @return Matrix with \eqn{k} archetypes.
-#' @nord
-.parameters.archetypes <- function(object, ...) {
-  object$archetypes
-}
-
-#' Return fitted archetypes.
-#' @param object An \code{archetypes} object.
-#' @param ... Ignored.
-#' @return Matrix with \eqn{k} archetypes.
+#'
+#' @aliases parameters-methods
+#' @aliases parameters,archetypes-method
+#'
 #' @importFrom modeltools parameters
-#' @rdname archetypes-class
-setMethod('parameters',
-          signature = signature(object = 'archetypes'),
-          .parameters.archetypes)
+#' @exportMethod parameters
+setMethod('parameters', signature = c(object = 'archetypes'),
+function(object, ...) {
+  object$archetypes
+})
 
 
 
-#' Return coefficients.
+#' Return coefficients
+#'
 #' @param object An \code{archetypes} object.
-#' @param type Return alphas or betas.
+#' @param type Return alpha or beta coefficients.
 #' @param ... Ignored.
 #' @return Coefficient matrix.
 #' @method coef archetypes
+#' @rdname coef
+#'
 #' @importFrom stats coef
 #' @S3method coef archetypes
-#' @rdname archetypes-class
 coef.archetypes <- function(object, type = c('alphas', 'betas'), ...) {
   type <- match.arg(type)
   object[[type]]
 }
 
 
-#' Return residuals.
+
+#' Return residuals
+#'
 #' @param object An \code{archetypes} object.
 #' @param ... Ignored.
 #' @return Matrix with residuals.
 #' @method residuals archetypes
+#' @rdname residuals
+#'
 #' @importFrom stats residuals
 #' @S3method residuals archetypes
-#' @rdname archetypes-class
 residuals.archetypes <- function(object, ...) {
   object$residuals
 }
 
 
 
-#' Residual sum of squares.
-#' @param object An object.
-#' @param ... Ignored.
-#' @return Residual sum of squares.
-#' @export
-#' @rdname archetypes-generics
-rss <- function(object, ...) {
-  UseMethod('rss')
-}
-
-#' Residual sum of squares getter.
+#' Return residual sum of squares
+#'
 #' @param object An \code{archetypes} object.
 #' @param type Return scaled, single or global RSS.
 #' @param ... Ignored.
 #' @return Residual sum of squares.
 #' @method rss archetypes
+#' @rdname rss
+#'
 #' @S3method rss archetypes
-#' @rdname archetypes-class
 rss.archetypes <- function(object, type = c('scaled', 'single', 'global'), ...) {
   type <- match.arg(type)
   resid <- residuals(object)
@@ -167,16 +165,18 @@ rss.archetypes <- function(object, type = c('scaled', 'single', 'global'), ...) 
 
 
 
-#' Return weights.
+#' Return weights
+#'
 #' @param object An \code{archetypes} object.
 #' @param type Return global weights (weighted archetypes) or
 #'   weights calculated during the iterations (robust archetypes).
 #' @param ... Ignored.
 #' @return Vector of weights.
 #' @method weights archetypes
+#' @rdname weights
+#'
 #' @importFrom stats weights
 #' @S3method weights archetypes
-#' @rdname archetypes-class
 weights.archetypes <- function(object, type = c('weights', 'reweights'), ...) {
   type <- match.arg(type)
   object[[type]]
@@ -184,64 +184,68 @@ weights.archetypes <- function(object, type = c('weights', 'reweights'), ...) {
 
 
 
-#' Kappa getter.
+#' Return kappa
+#'
 #' @param z An \code{archetypes} object.
 #' @param ... Ignored.
 #' @return A vector of kappas.
+#' @rdname kappa
+#'
 #' @method kappa archetypes
 #' @S3method kappa archetypes
-#' @rdname archetypes-class
 kappa.archetypes <- function(z, ...) {
   return(z$kappas)
 }
 
 
 
-#' Predict coefficients or data based on archetypes.
+#' Return number of archetypes
+#'
 #' @param object An \code{archetypes} object.
-#' @param type Predict alphas or data.
 #' @param ... Ignored.
-#' @return Prediction.
-#' @method predict archetypes
-#' @S3method predict archetypes
-#' @nord
-predict.archetypes <- function(object, newdata = NULL,
-                               type = c('alphas', 'data'), ...) {
-  type <- match.arg(type)
-
-  if ( is.null(newdata) )
-    return(switch(type,
-                  alphas = coef(object, type = 'alphas'),
-                  data = fitted(object)))
-
-  stop('Not implemented yet.')
-
-  ### Something like the following ...
-  #if ( type == 'alphas' )
-  #  object$family$alphasfn(NULL, t(object$archetypes), t(newdata))
-}
-
-
-
-#' Number of parameters.
-#' @param object An object.
-#' @param ... Further arguments.
-#' @return Number of parameters.
-#' @export
-#' @rdname archetypes-generics
-nparameters <- function(object, ...) {
-  UseMethod('nparameters')
-}
-
-
-
-#' Number of archetypes
-#' @param object An \code{archetypes}-related object.
-#' @param ... Further arguments.
 #' @return Number of archetypes.
+#' @rdname nparameters
+#'
 #' @method nparameters archetypes
 #' @S3method nparameters archetypes
-#' @rdname archetypes-class
 nparameters.archetypes <- function(object, ...) {
   return(object$k)
+}
+
+
+
+#' Predict method for archetypal analysis fits
+#'
+#' This method produces predicted alpha coefficients for new data.
+#'
+#' @param object An \code{archetypes} object; currently only
+#'   \code{\link[=archetypesFamily]{original}}-family objects.
+#' @param newdata A data frame with data for which to
+#'   predict the alpha coefficients.
+#' @param ... Ignored.
+#' @return The predict alpha coefficients.
+#' @rdname predict
+#'
+#' @method predict archetypes
+#' @S3method predict archetypes
+predict.archetypes <- function(object, newdata, ...) {
+  stopifnot(object$family$which == "original")
+
+  scale <- object$scaling
+
+  ## HACK: use blocks!
+  x <- t(newdata)
+  x <- x - scale$mean
+  x <- x / scale$sd
+  x <- object$family$dummyfn(x, ...)
+
+  zs <- t(parameters(object))
+  zs <- zs - scale$mean
+  zs <- zs / scale$sd
+  zs <- rbind(zs, 200)
+
+  alphas <- matrix(NA, ncol = ncol(x), nrow = ncol(coef(object)))
+  alphas <- object$family$alphasfn(alphas, zs, x)
+
+  t(alphas)
 }

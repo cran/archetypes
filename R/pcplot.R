@@ -1,13 +1,6 @@
+#' @include generics.R
+{}
 
-
-#' Parallel coordinates plot.
-#' @param x An object.
-#' @param ... Further arguments.
-#' @export
-#' @rdname archetypes-generics
-pcplot <- function(x, ...) {
-  UseMethod('pcplot')
-}
 
 
 #' Default parallel coordinates plot.
@@ -29,7 +22,6 @@ pcplot <- function(x, ...) {
 #' @return Undefined.
 #' @method pcplot default
 #' @S3method pcplot default
-#' @rdname pcplot
 pcplot.default <- function (x, col=gray(0.7), lty=1, var.label=TRUE,
                             rx=NULL, ...) {
 

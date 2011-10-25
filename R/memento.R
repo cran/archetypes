@@ -6,8 +6,9 @@
 #'
 #' @param i The number of the state.
 #' @param state The state to save.
+#'
 #' @return Memento environment.
-#' @export
+#'
 #' @examples
 #'   \dontrun{
 #'   m <- new.memento()
@@ -15,8 +16,9 @@
 #'   m$states()
 #'   m$get(i)
 #'   }
-#' @rdname memento
 #' @aliases memento
+#' @rdname memento
+#' @noRd
 new.memento <- function() {
 
   memento <- new.env(parent = emptyenv())

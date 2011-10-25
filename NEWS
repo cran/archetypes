@@ -1,4 +1,20 @@
 
+Changes in archetypes version 2.1-0
+
+  o Roxygen2-ified; added the Build-dep field to the DESCRIPTION
+    file.
+
+  o Added Author@R field to the DESCRIPTION file.
+
+  o Removed deprecated functions.
+
+  o Cleaned vignette 'archetypes.Rnw' and 'inst/doc' folder.
+
+  o Added predict function for 'original' archetypes.
+
+  o Added archetypal maps; based on code by Friedrich Leisch.
+
+
 Changes in archetypes version 2.0-2
 
   o Added analysis of the simulation study for robust archetypes
@@ -15,18 +31,18 @@ Changes in archetypes version 2.0-1
   o Technical report on robust and weighted archetypes is cited.
 
 
-Changes in archetypes version 2.0
+Changes in archetypes version 2.0-0
 
-  o cleaned up interface; see '?archetypes-deprecated' and
+  o Cleaned up interface; see '?archetypes-deprecated' and
     '?archetypes-generics'.
 
-  o added weighted and robust archetypes; see 'demo(robust-toy)' and
+  o Added weighted and robust archetypes; see 'demo(robust-toy)' and
     'demo(robust-ozone)'.
 
-  o added 'memento' environment to save internal states.
+  o Added 'memento' environment to save internal states.
 
-  o added panorama plot; see '?panorama.archetypes'
+  o Added panorama plot; see '?panorama.archetypes'
 
-  o improved 'barplot.archetypes'.
+  o Improved 'barplot.archetypes'.
 
 

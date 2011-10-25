@@ -67,7 +67,7 @@ package is demonstrated on two examples.
 %%\VignettePackage{archetypes}
 
 \SweaveOpts{eps=FALSE, keep.source=TRUE}
-<<echo=FALSE,print=FALSE,results=HIDE>>=
+<<echo=FALSE,print=FALSE,results=hide>>=
 options(width=80, prompt='R> ')
 @
 

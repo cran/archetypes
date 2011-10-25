@@ -1,37 +1,37 @@
-\name{archetypes-generics}
-\title{Generic functions in archetypes package}
-\description{These generic functions are defined in the package
-  archetypes.}
-\alias{rss}
-\usage{rss(object, ...)
-nparameters(object, ...)
-panorama(object, ...)
-bestModel(object, ...)
-xyplot(x, ...)
-pcplot(x, ...)
-}
-\value{\code{rss}: Residual sum of squares.
-
-\code{nparameters}: Number of parameters.
-
-
-\code{panorama}: Undefined.
-
-
-\code{bestModel}: The best models.
-
-
-\code{xyplot}: Undefined.
-
-
-}
-\arguments{\item{object}{An object.}
-\item{...}{Ignored.}
-\item{x}{An object.}
-}
+\name{rss}
+\alias{bestModel}
 \alias{nparameters}
 \alias{panorama}
-\alias{bestModel}
-\alias{xyplot}
 \alias{pcplot}
+\alias{rss}
+\title{Defined generics}
+\usage{
+  rss(object, ...)
+
+  nparameters(object, ...)
+
+  bestModel(object, ...)
+
+  panorama(object, ...)
+
+  pcplot(x, ...)
+}
+\arguments{
+  \item{object}{An object}
+
+  \item{...}{Futher arguments}
+
+  \item{x}{An object.}
+}
+\description{
+  Generics defined by the archetypes package.
+
+  Return number of parameters
+
+  Return best model
+
+  Panorama
+
+  Parallel coordinates plot
+}
 

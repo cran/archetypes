@@ -1,16 +1,5 @@
 
 
-#' Panorama plot.
-#' @param object An object.
-#' @param ... Further arguments.
-#' @return Undefined.
-#' @export
-#' @rdname archetypes-generics
-panorama <- function(object, ...) {
-  UseMethod('panorama')
-}
-
-
 
 #' Panorma plot for archetypes.
 #' @param object An \code{\link{archetypes}}-related object.
@@ -105,7 +94,7 @@ panorama.archetypes <- function(object, data, distfn = distEuclidean,
 #' @param centers Archetypes
 #' @return Matrix with euclidean distance between each
 #'   data point and each center.
-#' @nord
+#' @noRd
 distEuclidean <- function (x, centers) {
     if (ncol(x) != ncol(centers))
         stop(sQuote("x"), " and ", sQuote("centers"), " must have the same number of columns")
