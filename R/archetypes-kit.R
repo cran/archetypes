@@ -170,7 +170,7 @@ archetypes <- function(data, k, weights = NULL, maxIterations = 100,
   zs <- family$undummyfn(x1, zs)
   zs <- family$rescalefn(x1, zs)
 
-  resid <- zs %*% alphas - t(data)
+  #resid <- zs %*% alphas - t(data)
 
 
   return(as.archetypes(t(zs), k, t(alphas), rss, iters = (i-1),

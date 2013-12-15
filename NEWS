@@ -1,4 +1,19 @@
 
+Changes in archetypes version 2.1-2
+
+  o Moved vignette to 'vignettes' directory.
+
+  o Fixed R CMD --as-cran warnings/notes.
+
+
+Changes in archetypes version 2.1-1
+
+  o Fixed bug in movieplot2.
+
+  o Added extended simplex projection 'tspsimplex_projection' (based
+    on TSP) for archetypal maps.
+
+
 Changes in archetypes version 2.1-0
 
   o Roxygen2-ified; added the Build-dep field to the DESCRIPTION

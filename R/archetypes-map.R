@@ -7,6 +7,8 @@
 #' @param object An \code{\link{archetypes}} object
 #' @param projection Projection function; see
 #'   \code{\link{archmap_projections}}
+#' @param projection_args Arguments passed to the projection function;
+#'   see \code{\link{archmap_projections}}
 #' @param rotate Rotation angle to rotate the projection
 #' @param cex Character expansion of archetypes
 #' @param col Color of observations
@@ -30,13 +32,23 @@
 #'   ## Simplex projection:
 #'   archmap(a, col = skel$Gender)
 #'
+#'   ## Simplex projection with archetypes arranged according to their
+#'   ## distances:
+#'   archmap(a, col = skel$Gender,
+#'           projection = tspsimplex_projection)
+#'   archmap(a, col = skel$Gender,
+#'           projection = tspsimplex_projection,
+#'           projection_args = list(equidist = TRUE))
+#'
 #'   ## MDS projection:
-#'   archmap(a, projection = atypes_projection, col = skel$Gender)
+#'   archmap(a, col = skel$Gender,
+#'           projection = atypes_projection)
 #'
 #' @family archmap
 #'
 #' @export
-archmap <- function(object, projection = simplex_projection, rotate = 0,
+archmap <- function(object, projection = simplex_projection,
+                    projection_args = list(), rotate = 0,
                     cex = 1.5, col = 1, pch = 1, xlab = "", ylab = "",
                     axes = FALSE, asp = TRUE, ...) {
 
@@ -49,7 +61,7 @@ archmap <- function(object, projection = simplex_projection, rotate = 0,
     }
 
     ## Projection:
-    cmds <- projection(parameters(object))
+    cmds <- do.call(projection, c(list(parameters(object)), projection_args))
 
 
     ## Rotation:
@@ -98,16 +110,39 @@ archmap <- function(object, projection = simplex_projection, rotate = 0,
 #' @rdname archmap_projections
 #' @export
 simplex_projection <- function(x, r = 10) {
-  n <- nrow(x)
+  phi <- seq(-pi, pi, length.out = nrow(x) + 1)
+  phi <- phi[-1]
 
-  phi <- seq(-pi, pi, length.out = n + 1)
+  cbind(x = r * cos(phi),
+        y = r * sin(phi))
+}
 
-  x <- r * cos(phi)
-  y <- r * sin(phi)
 
-  m <- cbind(x, y)
 
-  m[-1, ]
+#' @param equidist Arrange archetypes equidistantly or in relation to
+#'   their distance
+#' @param ... Parameters for the \code{\link[TSP]{solve_TSP}} function
+#' @rdname archmap_projections
+#' @export
+tspsimplex_projection <- function(x, r = 10, equidist = FALSE, ...) {
+  stopifnot(require("TSP"))
+
+  d <- dist(x)
+  xo <- as.integer(solve_TSP(TSP(d), ...))
+
+  if ( equidist ) {
+    phi <- seq(-pi, pi, length.out = nrow(x) + 1)
+    phi <- phi[-1][xo]
+  } else {
+    d <- as.matrix(d)
+    phi <- mapply(function(i, j) d[i, j], xo, c(tail(xo, -1), xo[1]))
+    phi <- cumsum((phi / sum(phi)) * 360)
+    phi <- c(0, head(phi, -1))
+    phi <- ((phi * 2 * pi) / 360) - pi
+  }
+
+  cbind(x = r * cos(phi),
+        y = r * sin(phi))
 }
 
 

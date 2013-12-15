@@ -72,7 +72,7 @@ movieplot2 <- function(zs, data, show='atypes',
 
   # Initial archetypes:
   a <- zs$history$get(0)[[1]]
-  plot(a, data, ...)
+  xyplot(a, data, ...)
   Sys.sleep(bsleep)
 
   # Alternating loop:
@@ -91,7 +91,7 @@ movieplot2 <- function(zs, data, show='atypes',
     Sys.sleep(bsleep)
   }
 
-  plot(a, data, ...)
+  xyplot(a, data, ...)
 }
 
 

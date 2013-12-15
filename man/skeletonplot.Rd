@@ -7,8 +7,9 @@
     ylab = "Height (cm)", base.radius = 2, xlab = "",
     xlim = (nrow(x) * c(0, skel.width)),
     ylim = c(0, skel.height),
-    col = c(hipbase = 1, hip = 1, shoulderbase = 1, shoulder = 1, head = 1, elbow = 2, wrist = 3, knee = 4, ankle = 5, chest = "purple1", pelvis = 6),
-    mtext = TRUE, skel.lwd = 1, ...)
+    col = c(hipbase = 1, hip = 1, shoulderbase = 1, shoulder = 1,
+    head = 1, elbow = 2, wrist = 3, knee = 4, ankle = 5, chest = "purple1",
+    pelvis = 6), mtext = TRUE, skel.lwd = 1, ...)
 
   jd()
 }

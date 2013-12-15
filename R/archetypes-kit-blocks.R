@@ -170,7 +170,7 @@ opt.zalphasfn <- function(alphas, x, ...) {
 #' @return Recalculated alpha.
 #' @noRd
 nnls.alphasfn <- function(coefs, C, d, ...) {
-  require(nnls)
+  #require(nnls)
 
   n = ncol(d)
 
@@ -187,7 +187,7 @@ nnls.alphasfn <- function(coefs, C, d, ...) {
 #' @return Recalculated alpha.
 #' @noRd
 snnls.alphasfn <- function(coefs, C, d, ...) {
-  require(nnls)
+  #require(nnls)
 
   n = ncol(d)
 

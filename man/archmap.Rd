@@ -3,14 +3,18 @@
 \title{Archetypal maps}
 \usage{
   archmap(object, projection = simplex_projection,
-    rotate = 0, cex = 1.5, col = 1, pch = 1, xlab = "",
-    ylab = "", axes = FALSE, asp = TRUE, ...)
+    projection_args = list(), rotate = 0, cex = 1.5,
+    col = 1, pch = 1, xlab = "", ylab = "", axes = FALSE,
+    asp = TRUE, ...)
 }
 \arguments{
   \item{object}{An \code{\link{archetypes}} object}
 
   \item{projection}{Projection function; see
   \code{\link{archmap_projections}}}
+
+  \item{projection_args}{Arguments passed to the projection
+  function; see \code{\link{archmap_projections}}}
 
   \item{rotate}{Rotation angle to rotate the projection}
 
@@ -49,11 +53,21 @@ data("skel", package = "archetypes")
   ## Simplex projection:
   archmap(a, col = skel$Gender)
 
+  ## Simplex projection with archetypes arranged according to their
+  ## distances:
+  archmap(a, col = skel$Gender,
+          projection = tspsimplex_projection)
+  archmap(a, col = skel$Gender,
+          projection = tspsimplex_projection,
+          projection_args = list(equidist = TRUE))
+
   ## MDS projection:
-  archmap(a, projection = atypes_projection, col = skel$Gender)
+  archmap(a, col = skel$Gender,
+          projection = atypes_projection)
 }
 \seealso{
   Other archmap: \code{\link{atypes_projection}},
-  \code{\link{simplex_projection}}
+  \code{\link{simplex_projection}},
+  \code{\link{tspsimplex_projection}}
 }
 
