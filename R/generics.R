@@ -51,9 +51,10 @@ panorama <- function(object, ...) {
 #' Parallel coordinates plot
 #'
 #' @param x An object.
-#' @rdname archetypes-generics
+#' @rdname archetypes-generics 
 #'
 #' @export
 pcplot <- function(x, ...) {
   UseMethod('pcplot')
 }
+

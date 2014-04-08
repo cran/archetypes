@@ -4,12 +4,11 @@
 \alias{rss.stepArchetypes}
 \title{Return residual sum of squares}
 \usage{
-  \method{rss}{archetypes} (object,
-    type = c("scaled", "single", "global"), ...)
+\method{rss}{archetypes}(object, type = c("scaled", "single", "global"), ...)
 
-  \method{rss}{stepArchetypes} (object, ...)
+\method{rss}{stepArchetypes}(object, ...)
 
-  \method{rss}{repArchetypes} (object, ...)
+\method{rss}{repArchetypes}(object, ...)
 }
 \arguments{
   \item{object}{An \code{archetypes} object.}
@@ -19,9 +18,9 @@
   \item{...}{Ignored.}
 }
 \value{
-  Residual sum of squares.
+Residual sum of squares.
 }
 \description{
-  Return residual sum of squares
+Return residual sum of squares
 }
 

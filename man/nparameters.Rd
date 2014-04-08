@@ -4,11 +4,11 @@
 \alias{nparameters.stepArchetypes}
 \title{Return number of archetypes}
 \usage{
-  \method{nparameters}{archetypes} (object, ...)
+\method{nparameters}{archetypes}(object, ...)
 
-  \method{nparameters}{stepArchetypes} (object, ...)
+\method{nparameters}{stepArchetypes}(object, ...)
 
-  \method{nparameters}{repArchetypes} (object, ...)
+\method{nparameters}{repArchetypes}(object, ...)
 }
 \arguments{
   \item{object}{An \code{archetypes} object.}
@@ -16,9 +16,9 @@
   \item{...}{Ignored.}
 }
 \value{
-  Number of archetypes.
+Number of archetypes.
 }
 \description{
-  Return number of archetypes
+Return number of archetypes
 }
 

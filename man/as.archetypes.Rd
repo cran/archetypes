@@ -2,11 +2,10 @@
 \alias{as.archetypes}
 \title{Archetypes object constructor}
 \usage{
-  as.archetypes(object, k, alphas, rss, iters = NULL,
-    call = NULL, history = NULL, kappas = NULL,
-    betas = NULL, zas = NULL, family = NULL,
-    familyArgs = NULL, residuals = NULL, weights = NULL,
-    reweights = NULL, scaling = NULL)
+as.archetypes(object, k, alphas, rss, iters = NULL, call = NULL,
+  history = NULL, kappas = NULL, betas = NULL, zas = NULL,
+  family = NULL, familyArgs = NULL, residuals = NULL, weights = NULL,
+  reweights = NULL, scaling = NULL)
 }
 \arguments{
   \item{object}{The archetypes; a \eqn{p \times m} matrix,
@@ -52,16 +51,15 @@
   \item{scaling}{The scaling parameters of the data.}
 }
 \value{
-  A list with an element for each parameter and class
-  attribute \code{archetypes}.
+A list with an element for each parameter and class
+attribute \code{archetypes}.
 }
 \description{
-  Archetypes object constructor
+Archetypes object constructor
 }
 \seealso{
-  Other archetypes: \code{\link{archetypes}},
-  \code{\link{archetypesFamily}},
-  \code{\link{robustArchetypes}},
-  \code{\link{weightedArchetypes}}
+Other archetypes: \code{\link{archetypesFamily}};
+\code{\link{archetypes}}; \code{\link{robustArchetypes}};
+\code{\link{weightedArchetypes}}
 }
 

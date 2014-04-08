@@ -2,8 +2,7 @@
 \alias{archetypesFamily}
 \title{Archetypes family constructor}
 \usage{
-  archetypesFamily(which = c("original", "weighted", "robust"),
-    ...)
+archetypesFamily(which = c("original", "weighted", "robust"), ...)
 }
 \arguments{
   \item{which}{The kind of archetypes family.}
@@ -12,17 +11,17 @@
   self-defined functions.}
 }
 \value{
-  A list containing a function for each of the different
-  parts.
+A list containing a function for each of the different
+parts.
 }
 \description{
-  This function returns a problem solving block for each of
-  the different conceptual parts of the algorithm.
+This function returns a problem solving block for each of
+the different conceptual parts of the algorithm.
 }
 \seealso{
-  Other archetypes: \code{\link{archetypes}},
-  \code{\link{as.archetypes}},
-  \code{\link{robustArchetypes}},
-  \code{\link{weightedArchetypes}}
+Other archetypes: \code{\link{archetypes}};
+\code{\link{as.archetypes}};
+\code{\link{robustArchetypes}};
+\code{\link{weightedArchetypes}}
 }
 

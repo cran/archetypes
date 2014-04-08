@@ -2,14 +2,11 @@
 \alias{panorama.archetypes}
 \title{Panorma plot for archetypes.}
 \usage{
-  \method{panorama}{archetypes} (object, data,
-    distfn = distEuclidean, xlab = "Index",
-    ylab = "Distance", order = TRUE, col = 1, pch = 1,
-    cex = 1,
-    atypes.col = (seq(length = nparameters(object)) + 1),
-    atypes.pch = rep(19, nparameters(object)),
-    atypes.cex = rep(1, nparameters(object)), ylim = NULL,
-    ...)
+\method{panorama}{archetypes}(object, data, distfn = distEuclidean,
+  xlab = "Index", ylab = "Distance", order = TRUE, col = 1, pch = 1,
+  cex = 1, atypes.col = (seq(length = nparameters(object)) + 1),
+  atypes.pch = rep(19, nparameters(object)), atypes.cex = rep(1,
+  nparameters(object)), ylim = NULL, ...)
 }
 \arguments{
   \item{object}{An \code{\link{archetypes}}-related
@@ -43,7 +40,7 @@
   \item{...}{Passed to the underlying \code{plot} call.}
 }
 \description{
-  Panorma plot for archetypes.
+Panorma plot for archetypes.
 }
 \examples{
 \dontrun{

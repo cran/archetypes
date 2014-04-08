@@ -2,11 +2,9 @@
 \alias{xyplot.stepArchetypes}
 \title{Plot of two-dimensional data and stepArchetypes.}
 \usage{
-  \method{xyplot}{stepArchetypes} (x, y,
-    data.col = gray(0.7), data.pch = 19,
-    atypes.col = (seq_len(length(x) * length(x[[1]])) + 1),
-    atypes.pch = 19, ahull.show = TRUE,
-    ahull.col = atypes.col, ...)
+\method{xyplot}{stepArchetypes}(x, y, data.col = gray(0.7), data.pch = 19,
+  atypes.col = (seq_len(length(x) * length(x[[1]])) + 1), atypes.pch = 19,
+  ahull.show = TRUE, ahull.col = atypes.col, ...)
 }
 \arguments{
   \item{x}{An \code{\link{stepArchetypes}} object.}
@@ -28,9 +26,9 @@
   \item{...}{Passed to the underlying plot functions.}
 }
 \value{
-  Undefined.
+Undefined.
 }
 \description{
-  Plot of two-dimensional data and stepArchetypes.
+Plot of two-dimensional data and stepArchetypes.
 }
 

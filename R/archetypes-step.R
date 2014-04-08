@@ -57,7 +57,7 @@ stepArchetypes <- function(..., k, nrep = 3, method = archetypes, verbose = TRUE
 }
 
 
-
+#' @import methods
 setOldClass('repArchetypes')
 setOldClass('stepArchetypes')
 
@@ -116,9 +116,10 @@ summary.stepArchetypes <- function(object, ...) {
 
 
 
-#' @aliases parameters,stepArchetypes-method
 #' @rdname parameters
+#' @aliases parameters,stepArchetypes-method
 #' @importFrom modeltools parameters
+#' @import methods
 #' @exportMethod parameters
 setMethod('parameters', signature = c(object = 'stepArchetypes'),
 function(object, ...) {
@@ -179,8 +180,8 @@ print.repArchetypes <- function(x, ...) {
 
 
 
-#' @aliases parameters,repArchetypes-method
 #' @rdname parameters
+#' @aliases parameters,repArchetypes-method
 #' @importFrom modeltools parameters
 #' @exportMethod parameters
 setMethod('parameters', signature = signature(object = 'repArchetypes'),
@@ -188,7 +189,7 @@ function(object, ...) {
   lapply(object, parameters)
 })
 
-
+ 
 
 #' @rdname rss
 #' @method rss repArchetypes

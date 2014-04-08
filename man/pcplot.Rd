@@ -2,7 +2,7 @@
 \alias{lines.pcplot}
 \title{Add lines to an existing parallel coordinates plot.}
 \usage{
-  lines.pcplot(x, data, col = 1, lty = 1, ...)
+\method{lines}{pcplot}(x, data, col = 1, lty = 1, ...)
 }
 \arguments{
   \item{x}{A matrix or data frame containing the additional
@@ -19,9 +19,9 @@
   \code{\link[graphics]{matlines}}.}
 }
 \value{
-  Undefined.
+Undefined.
 }
 \description{
-  Add lines to an existing parallel coordinates plot.
+Add lines to an existing parallel coordinates plot.
 }
 

@@ -2,7 +2,7 @@
 \alias{xyplot.robustArchetypes}
 \title{Plot of two-dimensional data and robust archetypes.}
 \usage{
-  \method{xyplot}{robustArchetypes} (x, y, ...)
+\method{xyplot}{robustArchetypes}(x, y, ...)
 }
 \arguments{
   \item{x}{An \code{\link{archetypes}} object.}
@@ -14,6 +14,6 @@
   \code{\link{xyplot.robustArchetypes}}}
 }
 \description{
-  Plot of two-dimensional data and robust archetypes.
+Plot of two-dimensional data and robust archetypes.
 }
 

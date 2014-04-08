@@ -2,8 +2,7 @@
 \alias{weightedArchetypes}
 \title{Weighted archetypes}
 \usage{
-  weightedArchetypes(data, k, weights = NULL,
-    familyBlocks = list(), ...)
+weightedArchetypes(data, k, weights = NULL, familyBlocks = list(), ...)
 }
 \arguments{
   \item{weights}{Data weights matrix.}
@@ -18,16 +17,15 @@
   \item{...}{Additional arguments for family blocks.}
 }
 \value{
-  An object of class \code{weightedArchetypes} and
-  \code{\link{as.archetypes}}.
+An object of class \code{weightedArchetypes} and
+\code{\link{as.archetypes}}.
 }
 \description{
-  Weighted archetypes
+Weighted archetypes
 }
 \seealso{
-  Other archetypes: \code{\link{archetypes}},
-  \code{\link{archetypesFamily}},
-  \code{\link{as.archetypes}},
-  \code{\link{robustArchetypes}}
+Other archetypes: \code{\link{archetypesFamily}};
+\code{\link{archetypes}}; \code{\link{as.archetypes}};
+\code{\link{robustArchetypes}}
 }
 

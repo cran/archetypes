@@ -2,7 +2,7 @@
 \alias{fitted.archetypes}
 \title{Return fitted data}
 \usage{
-  \method{fitted}{archetypes} (object, ...)
+\method{fitted}{archetypes}(object, ...)
 }
 \arguments{
   \item{object}{An \code{archetypes} object.}
@@ -10,9 +10,9 @@
   \item{...}{Ignored.}
 }
 \value{
-  Matrix with approximated data.
+Matrix with approximated data.
 }
 \description{
-  Returns the approximated data.
+Returns the approximated data.
 }
 

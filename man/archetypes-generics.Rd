@@ -6,15 +6,15 @@
 \alias{rss}
 \title{Defined generics}
 \usage{
-  rss(object, ...)
+rss(object, ...)
 
-  nparameters(object, ...)
+nparameters(object, ...)
 
-  bestModel(object, ...)
+bestModel(object, ...)
 
-  panorama(object, ...)
+panorama(object, ...)
 
-  pcplot(x, ...)
+pcplot(x, ...)
 }
 \arguments{
   \item{object}{An object}
@@ -24,14 +24,14 @@
   \item{x}{An object.}
 }
 \description{
-  Generics defined by the archetypes package.
+Generics defined by the archetypes package.
 
-  Return number of parameters
+Return number of parameters
 
-  Return best model
+Return best model
 
-  Panorama
+Panorama
 
-  Parallel coordinates plot
+Parallel coordinates plot
 }
 

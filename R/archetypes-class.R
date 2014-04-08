@@ -100,10 +100,12 @@ fitted.archetypes <- function(object, ...) {
 #' @aliases parameters-methods
 #' @aliases parameters,archetypes-method
 #'
+#' @import methods
 #' @importFrom modeltools parameters
 #' @exportMethod parameters
+#' @rdname parameters
 setMethod('parameters', signature = c(object = 'archetypes'),
-function(object, ...) {
+function(object, ...) { 
   object$archetypes
 })
 

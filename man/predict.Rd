@@ -2,7 +2,7 @@
 \alias{predict.archetypes}
 \title{Predict method for archetypal analysis fits}
 \usage{
-  \method{predict}{archetypes} (object, newdata, ...)
+\method{predict}{archetypes}(object, newdata, ...)
 }
 \arguments{
   \item{object}{An \code{archetypes} object; currently only
@@ -15,10 +15,10 @@
   \item{...}{Ignored.}
 }
 \value{
-  The predict alpha coefficients.
+The predict alpha coefficients.
 }
 \description{
-  This method produces predicted alpha coefficients for new
-  data.
+This method produces predicted alpha coefficients for new
+data.
 }
 

@@ -2,8 +2,7 @@
 \alias{coef.archetypes}
 \title{Return coefficients}
 \usage{
-  \method{coef}{archetypes} (object,
-    type = c("alphas", "betas"), ...)
+\method{coef}{archetypes}(object, type = c("alphas", "betas"), ...)
 }
 \arguments{
   \item{object}{An \code{archetypes} object.}
@@ -13,9 +12,9 @@
   \item{...}{Ignored.}
 }
 \value{
-  Coefficient matrix.
+Coefficient matrix.
 }
 \description{
-  Return coefficients
+Return coefficients
 }
 

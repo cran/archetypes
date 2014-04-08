@@ -23,6 +23,7 @@
 #'   Invisible matrix with the projected archetypes
 #'
 #' @examples
+#' \dontrun{
 #'   data("skel", package = "archetypes")
 #'   skel2 <- subset(skel, select = -Gender)
 #'
@@ -43,6 +44,7 @@
 #'   ## MDS projection:
 #'   archmap(a, col = skel$Gender,
 #'           projection = atypes_projection)
+#' }
 #'
 #' @family archmap
 #'
@@ -51,6 +53,8 @@ archmap <- function(object, projection = simplex_projection,
                     projection_args = list(), rotate = 0,
                     cex = 1.5, col = 1, pch = 1, xlab = "", ylab = "",
                     axes = FALSE, asp = TRUE, ...) {
+    
+    .Deprecated("simplexplot", old = "archmap")
 
     stopifnot("archetypes" %in% class(object))
     stopifnot(is.function(projection))

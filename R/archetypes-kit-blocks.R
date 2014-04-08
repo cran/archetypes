@@ -168,6 +168,7 @@ opt.zalphasfn <- function(alphas, x, ...) {
 #' @param C The archetypes matrix.
 #' @param d The data matrix.
 #' @return Recalculated alpha.
+#' @import nnls
 #' @noRd
 nnls.alphasfn <- function(coefs, C, d, ...) {
   #require(nnls)
@@ -185,6 +186,7 @@ nnls.alphasfn <- function(coefs, C, d, ...) {
 #' @param C The archetypes matrix.
 #' @param d The data matrix.
 #' @return Recalculated alpha.
+#' @import nnls
 #' @noRd
 snnls.alphasfn <- function(coefs, C, d, ...) {
   #require(nnls)
@@ -214,6 +216,7 @@ snnls.alphasfn <- function(coefs, C, d, ...) {
 #' @param C The data matrix.
 #' @param d The archetypes matrix.
 #' @return Recalculated beta.
+#' @import nnls
 #' @noRd
 nnls.betasfn <- nnls.alphasfn
 
@@ -224,6 +227,7 @@ nnls.betasfn <- nnls.alphasfn
 #' @param C The data matrix.
 #' @param d The archetypes matrix.
 #' @return Recalculated beta.
+#' @import nnls
 #' @noRd
 snnls.betasfn <- snnls.alphasfn
 

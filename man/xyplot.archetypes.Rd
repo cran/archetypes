@@ -2,13 +2,11 @@
 \alias{xyplot.archetypes}
 \title{Plot of two-dimensional data and archetypes.}
 \usage{
-  \method{xyplot}{archetypes} (x, y, data.col = 1,
-    data.pch = 19, data.bg = NULL, atypes.col = 2,
-    atypes.pch = 19, ahull.show = TRUE,
-    ahull.col = atypes.col, chull = NULL,
-    chull.col = gray(0.7), chull.pch = 19,
-    adata.show = FALSE, adata.col = 3, adata.pch = 13,
-    link.col = data.col, link.lty = 1, ...)
+\method{xyplot}{archetypes}(x, y, data.col = 1, data.pch = 19,
+  data.bg = NULL, atypes.col = 2, atypes.pch = 19, ahull.show = TRUE,
+  ahull.col = atypes.col, chull = NULL, chull.col = gray(0.7),
+  chull.pch = 19, adata.show = FALSE, adata.col = 3, adata.pch = 13,
+  link.col = data.col, link.lty = 1, ...)
 }
 \arguments{
   \item{x}{An \code{\link{archetypes}} object.}
@@ -52,13 +50,13 @@
   \item{...}{Passed to the underlying plot functions.}
 }
 \value{
-  Undefined.
+Undefined.
 }
 \description{
-  Plot of two-dimensional data and archetypes.
+Plot of two-dimensional data and archetypes.
 }
 \note{
-  The link between approximated and original data is based
-  on an idea and Matlab source code of Bernard Pailthorpe.
+The link between approximated and original data is based on
+an idea and Matlab source code of Bernard Pailthorpe.
 }
 

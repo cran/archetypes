@@ -2,7 +2,7 @@
 \alias{robustArchetypes}
 \title{Robust archetypes}
 \usage{
-  robustArchetypes(data, k, familyBlocks = list(), ...)
+robustArchetypes(data, k, familyBlocks = list(), ...)
 }
 \arguments{
   \item{familyBlocks}{Exchange predefined family blocks;
@@ -15,16 +15,15 @@
   \item{...}{Additional arguments for family blocks.}
 }
 \value{
-  An object of class \code{robustArchetypes} and
-  \code{\link{as.archetypes}}.
+An object of class \code{robustArchetypes} and
+\code{\link{as.archetypes}}.
 }
 \description{
-  Robust archetypes
+Robust archetypes
 }
 \seealso{
-  Other archetypes: \code{\link{archetypes}},
-  \code{\link{archetypesFamily}},
-  \code{\link{as.archetypes}},
-  \code{\link{weightedArchetypes}}
+Other archetypes: \code{\link{archetypesFamily}};
+\code{\link{archetypes}}; \code{\link{as.archetypes}};
+\code{\link{weightedArchetypes}}
 }
 

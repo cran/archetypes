@@ -23,17 +23,36 @@ citEntry(entry="Article",
 	title="Weighted and Robust Archetypal Analysis",
 	author=personList(as.person("Manuel J. A. Eugster"),
 		as.person("Friedrich Leisch")),
-	journal="Technical Report 82, Department of Statistics, Ludwig-Maximilians-Universitaet Muenchen, Germany",
-	year="2010",
-	volume="82",
-	pages="1--13",
-	url="http://epub.ub.uni-muenchen.de/11498/",
+  journal="Computational Statistics and Data Analysis",
+  year = "2011",
+  volume = "55",
+  number = "3",
+  pages = "1215--1225",
+  url = "http://www.sciencedirect.com/science/article/pii/S0167947310004056",
+  preprint = "http://epub.ub.uni-muenchen.de/11498/",
 
 	header="To cite weighted and robust archetypes in publications use:",
 	
 	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch.",
 		"Weighted and Robust Archetypal Analysis",
-		"Technical Report 82, Department of Statistics, Ludwig-Maximilians-Universitaet Muenchen, Germany. 2010.",
-		"http://epub.ub.uni-muenchen.de/11498/")
+    "Computational Statistics and Data Analysis, 55(3):1215-1225, 2011.",
+		"http://www.sciencedirect.com/science/article/pii/S0167947310004056")
+)
+
+
+citEntry(entry="TechReport",
+  title="Probabilistic Archetypal Analysis",
+	author=personList(as.person("Sohan Seth"),
+    as.person("Manuel J. A. Eugster")),
+  institution="arXiv.org",
+  year = "2014",
+  url = "http://arxiv.org/abs/1312.7604",
+
+	header="To cite the simplex visualization in publications use:",
+	
+	textVersion=paste("Sohan Seth and Manuel J. A. Eugster.",
+		" Probabilistic Archetypal Analysis",
+    "arXiv.org, 2014.",
+		"http://arxiv.org/abs/1312.7604")
 )
 

@@ -3,15 +3,11 @@
 \alias{skeletonplot}
 \title{Skeleton plot.}
 \usage{
-  skeletonplot(x, skel.width = 100, skel.height = 200,
-    ylab = "Height (cm)", base.radius = 2, xlab = "",
-    xlim = (nrow(x) * c(0, skel.width)),
-    ylim = c(0, skel.height),
-    col = c(hipbase = 1, hip = 1, shoulderbase = 1, shoulder = 1,
-    head = 1, elbow = 2, wrist = 3, knee = 4, ankle = 5, chest = "purple1",
-    pelvis = 6), mtext = TRUE, skel.lwd = 1, ...)
+skeletonplot(x, skel.width = 100, skel.height = 200, ylab = "Height (cm)",
+  base.radius = 2, xlab = "", xlim = (nrow(x) * c(0, skel.width)),
+  ylim = c(0, skel.height), col = NULL, mtext = TRUE, skel.lwd = 1, ...)
 
-  jd()
+jd()
 }
 \arguments{
   \item{x}{Matrix or data.frame of skeleton data.}
@@ -43,19 +39,18 @@
   \item{...}{Passed to underlying canvas plot function.}
 }
 \value{
-  List of skeleton instances.
+List of skeleton instances.
 
-  Generic skeleton instance.
+Generic skeleton instance.
 }
 \description{
-  Displays a schematic representation of skeleton data as
-  available in dataset \code{\link{skel}}.
+Displays a schematic representation of skeleton data as
+available in dataset \code{\link{skel}}.
 
-  Displays a generic skeleton with annotations explaining
-  the measurements available in data set
-  \code{\link{skel}}.
+Displays a generic skeleton with annotations explaining the
+measurements available in data set \code{\link{skel}}.
 }
 \seealso{
-  \code{\link{skel}}
+\code{\link{skel}}
 }
 

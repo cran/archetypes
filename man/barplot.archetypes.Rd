@@ -2,12 +2,10 @@
 \alias{barplot.archetypes}
 \title{Barplot of archetypes.}
 \usage{
-  \method{barplot}{archetypes} (height, data,
-    which = c("below", "beside"),
-    which.beside = c("atypes", "variables"),
-    which.below = c("compressed", "default"),
-    percentiles = FALSE, below.compressed.height = 0.1,
-    below.compressed.srt = 0, col.atypes = NULL, ...)
+\method{barplot}{archetypes}(height, data, which = c("below", "beside"),
+  which.beside = c("atypes", "variables"), which.below = c("compressed",
+  "default"), percentiles = FALSE, below.compressed.height = 0.1,
+  below.compressed.srt = 0, col.atypes = NULL, ...)
 }
 \arguments{
   \item{height}{An \code{\link{archetypes}} object.}
@@ -39,9 +37,9 @@
   call.}
 }
 \value{
-  Undefined.
+Undefined.
 }
 \description{
-  Barplot of archetypes.
+Barplot of archetypes.
 }
 

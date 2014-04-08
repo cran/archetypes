@@ -1,4 +1,11 @@
 
+Changes in archetypes version 2.2-0
+
+  o Added simplex plot with examples and reference.
+
+  o Updated weighted and robust archetypes reference.
+
+
 Changes in archetypes version 2.1-2
 
   o Moved vignette to 'vignettes' directory.

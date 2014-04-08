@@ -5,11 +5,11 @@
 \alias{tspsimplex_projection}
 \title{Archetypal map projections}
 \usage{
-  simplex_projection(x, r = 10)
+simplex_projection(x, r = 10)
 
-  tspsimplex_projection(x, r = 10, equidist = FALSE, ...)
+tspsimplex_projection(x, r = 10, equidist = FALSE, ...)
 
-  atypes_projection(x)
+atypes_projection(x)
 }
 \arguments{
   \item{x}{Archetypes matrix}
@@ -23,12 +23,12 @@
   \code{\link[TSP]{solve_TSP}} function}
 }
 \value{
-  Matrix with the projected archetypes
+Matrix with the projected archetypes
 }
 \description{
-  Archetypal map projections
+Archetypal map projections
 }
 \seealso{
-  Other archmap: \code{\link{archmap}}
+Other archmap: \code{\link{archmap}}
 }
 

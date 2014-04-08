@@ -2,7 +2,7 @@
 \alias{xyplot}
 \title{Two-dimensional plot.}
 \usage{
-  xyplot(x, ...)
+xyplot(x, ...)
 }
 \arguments{
   \item{x}{An object.}
@@ -10,9 +10,9 @@
   \item{...}{Further arguments.}
 }
 \value{
-  Undefined.
+Undefined.
 }
 \description{
-  Two-dimensional plot.
+Two-dimensional plot.
 }
 

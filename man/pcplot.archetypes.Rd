@@ -2,10 +2,9 @@
 \alias{pcplot.archetypes}
 \title{Parallel coordinates of data and archetypes.}
 \usage{
-  \method{pcplot}{archetypes} (x, data,
-    data.col = gray(0.7), data.lwd = 1, atypes.col = 2,
-    atypes.lwd = 2, atypes.lty = 1, chull = NULL,
-    chull.col = 1, chull.lwd = 2, chull.lty = 1, ...)
+\method{pcplot}{archetypes}(x, data, data.col = gray(0.7), data.lwd = 1,
+  atypes.col = 2, atypes.lwd = 2, atypes.lty = 1, chull = NULL,
+  chull.col = 1, chull.lwd = 2, chull.lty = 1, ...)
 }
 \arguments{
   \item{x}{An \code{\link{archetypes}} object.}
@@ -35,9 +34,9 @@
   \code{\link{lines.pcplot}}.}
 }
 \value{
-  Undefined.
+Undefined.
 }
 \description{
-  Parallel coordinates of data and archetypes.
+Parallel coordinates of data and archetypes.
 }
 

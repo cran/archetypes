@@ -4,17 +4,15 @@
 \alias{movieplot2}
 \title{Archetypes movies.}
 \usage{
-  movieplot(zs, data,
-    show = c("atypes", "adata", "rwdata"), ssleep = 0,
-    bsleep = 0, postfn = function(iter) { },
-    rwdata.col1 = gray(0.7), rwdata.col2 = 2, ...)
+movieplot(zs, data, show = c("atypes", "adata", "rwdata"), ssleep = 0,
+  bsleep = 0, postfn = function(iter) { }, rwdata.col1 = gray(0.7),
+  rwdata.col2 = 2, ...)
 
-  movieplot2(zs, data, show = "atypes", ssleep = 0,
-    bsleep = 0, zas.col = 2, zas.pch = 13,
-    old.col = rgb(1, 0.5, 0.5), ...)
+movieplot2(zs, data, show = "atypes", ssleep = 0, bsleep = 0,
+  zas.col = 2, zas.pch = 13, old.col = rgb(1, 0.5, 0.5), ...)
 
-  moviepcplot(zs, data, show = c("atypes", "adata"),
-    ssleep = 0, bsleep = 0, ...)
+moviepcplot(zs, data, show = c("atypes", "adata"), ssleep = 0, bsleep = 0,
+  ...)
 }
 \arguments{
   \item{zs}{An \code{\link{archetypes}} object.}
@@ -46,17 +44,17 @@
   \item{old.col}{Color of the archetypes on step further.}
 }
 \value{
-  Undefined.
+Undefined.
 
-  Undefined.
+Undefined.
 
-  Undefined.
+Undefined.
 }
 \description{
-  Archetypes movies.
+Archetypes movies.
 
-  Shows the intermediate steps of the algorithm;
+Shows the intermediate steps of the algorithm;
 
-  Archetypes parallel coordinates plot movie.
+Archetypes parallel coordinates plot movie.
 }
 

@@ -2,8 +2,7 @@
 \alias{stepArchetypes}
 \title{Run archetypes algorithm repeatedly}
 \usage{
-  stepArchetypes(..., k, nrep = 3, method = archetypes,
-    verbose = TRUE)
+stepArchetypes(..., k, nrep = 3, method = archetypes, verbose = TRUE)
 }
 \arguments{
   \item{...}{Passed to the specific archetype function.}
@@ -22,13 +21,13 @@
   \item{verbose}{Show progress during exection.}
 }
 \value{
-  A list with \code{k} elements and class attribute
-  \code{stepArchetypes}. Each element is a list of class
-  \code{repArchetypes} with \code{nrep} elements; only for
-  internal usage.
+A list with \code{k} elements and class attribute
+\code{stepArchetypes}. Each element is a list of class
+\code{repArchetypes} with \code{nrep} elements; only for
+internal usage.
 }
 \description{
-  Run archetypes algorithm repeatedly
+Run archetypes algorithm repeatedly
 }
 \examples{
 \dontrun{
@@ -45,6 +44,6 @@
   }
 }
 \seealso{
-  \code{\link{archetypes}}
+\code{\link{archetypes}}
 }
 
