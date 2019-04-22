@@ -132,9 +132,7 @@ qrsolve.zalphasfn <- function(alphas, x, ...) {
 #' @return The solved linear system.
 #' @noRd
 ginv.zalphasfn <- function(alphas, x, ...) {
-  require(MASS)
-
-  return(t(ginv(alphas %*% t(alphas)) %*% alphas %*% t(x)))
+  return(t(MASS::ginv(alphas %*% t(alphas)) %*% alphas %*% t(x)))
 }
 
 

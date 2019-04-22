@@ -1,11 +1,11 @@
-5460aa2b880c91418402808d6a57007f *DESCRIPTION
-d58e29206297372ff05c4b64eec5ce7f *NAMESPACE
+8030d9bf749fa08236bc05e0101ce406 *DESCRIPTION
+11378d1357a51dd066bf438e971cfb5e *NAMESPACE
 8c0461d4a041b7493b8d086b838b1a68 *NEWS
 7a73ec81dc84f99d91ef521ecc3fa5a9 *R/archetypes-barplot.R
 982c0420760e4ccbd4972701ff3fddc8 *R/archetypes-class.R
-4e0b03166a84dde4b5d142a13cc92de8 *R/archetypes-kit-blocks.R
+c8a978006c7763b0e15bf1d06140bdf2 *R/archetypes-kit-blocks.R
 0d722778dccbaddb825a8eb2753ec2cd *R/archetypes-kit.R
-18c7025246c6c0135966abbd125e1435 *R/archetypes-map.R
+2337dd0ea268358325b09dde608935c8 *R/archetypes-map.R
 2a26b3ceff89d281013296ff0dea19cb *R/archetypes-movie.R
 218d716881fbdfd28708d3416680128a *R/archetypes-panorama.R
 074a0d24dffcee7b60ba31852600c8f0 *R/archetypes-pcplot.R
@@ -19,7 +19,7 @@ ef126eef5d300dda869167fcca6eb26a *R/generics.R
 5b121bc41fa7b9df059e1a0536236f78 *R/pcplot.R
 4f039672ddf2e1bc563e63f710bd738b *R/simplex-pot.R
 12d9000b3c8a9de419a821e911c43697 *R/skeletonplot.R
-f659dcc368deb646e91dc62eedd0e0d2 *build/vignette.rds
+c20efda49cb5e877f9f44d1a4467516d *build/vignette.rds
 257f0618f65fbb5674c666e7c18c424c *data/body.RData
 1bcc22b398799e641a9c25265acb0f45 *data/skel.RData
 4ee901daaa8dc16ba4380dffac0d7bca *data/toy.RData
@@ -27,10 +27,10 @@ f659dcc368deb646e91dc62eedd0e0d2 *build/vignette.rds
 80a6e916435f304824cd6f22ef1fa160 *demo/robust-ozone.R
 cd840461ccd49a4ef81a5519f3fd792b *demo/robust-simulation.R
 f4f73b759f4038203242be73127227dd *demo/robust-toy.R
-5d3385b00826ffa6154a8f410619061a *inst/CITATION
-ed1b1039501da8a83bdcc781ca433e71 *inst/doc/archetypes.R
-8693074850cad4f53c5c87a4a0e96bcb *inst/doc/archetypes.Rnw
-02030e42a191742ad1792caa009e5993 *inst/doc/archetypes.pdf
+b5a9d79590a3cdf3620808e1739a7c81 *inst/CITATION
+a0017c804e37c7500695e5e8cb53ed8b *inst/doc/archetypes.R
+a74b45a89f950c82fb16e86c22cd999f *inst/doc/archetypes.Rnw
+2c8b646d90b0b2f87fab87f754369707 *inst/doc/archetypes.pdf
 1f6f65d34f0f915cbfd4a41cf5b12c33 *inst/opt/robust-simulation/sim1.RData
 a0a97d1f1404b3c782834dad34c9f8e0 *inst/opt/robust-simulation/sim2.RData
 20fc9d663e2ddb08ea0e65cf70b25323 *man/archetypes-generics.Rd
@@ -58,7 +58,7 @@ f857612ece627d9bfad0a8c027c94aa7 *man/pcplot.archetypes.Rd
 ba2eafd8fa5bd85450e359cfd9db99dd *man/robustArchetypes.Rd
 50bb4faa6963fee06d636b949ac39f82 *man/rss.Rd
 8fd9e7a01ac8c992e6456cd0b6c91e2a *man/screeplot.stepArchetypes.Rd
-cc1b6c19e9236c31e36843713c7f9bb3 *man/simplexplot.Rd
+ca9d8e65be86c949a7647021ea43961b *man/simplexplot.Rd
 831d806012ef862258bd7d5cb1802cb2 *man/skel.Rd
 f871f348aaf8b8d2c4e229a9ae3c97a1 *man/skeletonplot.Rd
 5b4ee396d318e324e3104ef5506dc6e7 *man/stepArchetypes.Rd
@@ -71,7 +71,7 @@ b134ae1e5085cbc22b81157ea3696294 *man/summary.Rd
 0dda502d45a640beb67208212819c70b *man/xyplot.robustArchetypes.Rd
 7742ac952a62955664c34d5ae0603f53 *man/xyplot.stepArchetypes.Rd
 47de728c095e43f9dd548e8c276fe8f8 *man/xyplot.weightedArchetypes.Rd
-8693074850cad4f53c5c87a4a0e96bcb *vignettes/archetypes.Rnw
+a74b45a89f950c82fb16e86c22cd999f *vignettes/archetypes.Rnw
 e259fc18a20f059c7084a83bc71f8543 *vignettes/archetypes.bib
 2e60fc34a290a89be5c7cc07e8c1a59f *vignettes/rt-002.pdf
 c7c74aca5fdd54a95fe7d70aaa5c7442 *vignettes/rt-003.pdf

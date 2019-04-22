@@ -129,10 +129,10 @@ simplex_projection <- function(x, r = 10) {
 #' @rdname archmap_projections
 #' @export
 tspsimplex_projection <- function(x, r = 10, equidist = FALSE, ...) {
-  stopifnot(require("TSP"))
+  stopifnot(requireNamespace("TSP", quietly = TRUE))
 
   d <- dist(x)
-  xo <- as.integer(solve_TSP(TSP(d), ...))
+  xo <- as.integer(TSP::solve_TSP(TSP::TSP(d), ...))
 
   if ( equidist ) {
     phi <- seq(-pi, pi, length.out = nrow(x) + 1)

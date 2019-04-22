@@ -71,6 +71,7 @@ this circle.
 
   data("toy", package = "archetypes")
 
+  suppressWarnings(RNGversion("3.5.0"))
   set.seed(1234); a3 <- archetypes(toy, k = 3)
   set.seed(1237); a4 <- archetypes(toy, k = 4)
   set.seed(1238); a5 <- archetypes(toy, k = 5)

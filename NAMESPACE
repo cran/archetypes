@@ -58,3 +58,10 @@ importFrom(stats,fitted)
 importFrom(stats,residuals)
 importFrom(stats,screeplot)
 importFrom(stats,weights)
+importFrom("grDevices", "chull", "gray", "rgb")
+importFrom("graphics", "abline", "arrows", "axis", "box", "layout",
+     "lines", "matlines", "matplot", "mtext", "par", "plot",
+     "points", "polygon", "symbols", "text")
+importFrom("stats", "cmdscale", "dist", "ecdf", "median", "optim",
+     "rnorm", "sd")
+importFrom("utils", "combn", "head", "history", "tail")

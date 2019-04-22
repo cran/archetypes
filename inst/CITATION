@@ -1,6 +1,6 @@
 
 citEntry(entry="Article",
-	title="{From {S}pider-{M}an to {H}ero -- Archetypal Analsis in {R}",
+	title="From {S}pider-{M}an to {H}ero -- Archetypal Analsis in {R}",
 	author=personList(as.person("Manuel J. A. Eugster"),
 		as.person("Friedrich Leisch")),
 	journal="Journal of Statistical Software",
