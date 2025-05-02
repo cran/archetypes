@@ -1,11 +1,11 @@
 Package: archetypes
 Type: Package
 Title: Archetypal Analysis
-Version: 2.2-0.1
-Date: 2014-04-08
+Version: 2.2-0.2
+Date: 2025-05-02
 Depends: methods, stats, modeltools, nnls (>= 1.1)
-Suggests: MASS, vcd, mlbench, ggplot2, TSP
-Authors@R: c(person("Manuel", "J. A. Eugster", role = c("aut", "cre"), email =
+Suggests: MASS, vcd, mlbench, ggplot2, TSP, mvtnorm
+Authors@R: c(person("Manuel", "J. A. Eugster", role = c("aut", "cre", "cph"), email =
     "manuel@mjae.net"), person("Friedrich", "Leisch", role = "aut"),
     person("Sohan", "Seth", role = "ctb"))
 Description: The main function archetypes implements a
@@ -19,12 +19,14 @@ Collate: 'archetypes-barplot.R' 'generics.R' 'archetypes-class.R'
         'archetypes-pcplot.R' 'archetypes-robust.R'
         'archetypes-screeplot.R' 'archetypes-step.R'
         'archetypes-weighted.R' 'archetypes-xyplot.R' 'memento.R'
-        'simplex-pot.R' 'skeletonplot.R'
-Packaged: 2019-04-21 09:14:14 UTC; ripley
-Author: Manuel J. A. Eugster [aut, cre],
+        'simplex-pot.R' 'skeletonplot.R' 'body.R' 'skel.R' 'toy.R'
+Packaged: 2025-05-02 08:43:44 UTC; manuel
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2025-05-02 10:00:06 UTC
+RoxygenNote: 7.3.2
+LazyData: true
+Author: Manuel J. A. Eugster [aut, cre, cph],
   Friedrich Leisch [aut],
   Sohan Seth [ctb]
 Maintainer: Manuel J. A. Eugster <manuel@mjae.net>
-NeedsCompilation: no
-Repository: CRAN
-Date/Publication: 2019-04-22 06:55:33 UTC

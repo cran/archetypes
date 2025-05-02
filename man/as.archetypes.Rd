@@ -9,7 +9,7 @@ as.archetypes(object, k, alphas, rss, iters = NULL, call = NULL,
 }
 \arguments{
   \item{object}{The archetypes; a \eqn{p \times m} matrix,
-  see \code{\link{parameters}}.}
+  see \code{\link{parameters-methods}}.}
 
   \item{k}{The number of archetypes;}
 

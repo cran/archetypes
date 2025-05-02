@@ -1,58 +1,32 @@
 
-citEntry(entry="Article",
-	title="From {S}pider-{M}an to {H}ero -- Archetypal Analsis in {R}",
-	author=personList(as.person("Manuel J. A. Eugster"),
-		as.person("Friedrich Leisch")),
-	journal="Journal of Statistical Software",
-	year="2009",
-	volume="30",
-	number="8",
-	pages="1--23",
-	url="http://www.jstatsoft.org/v30/i08/",
-
-	header="To cite package archetypes in publications use:",
-	
-	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch.",
-		"From Spider-Man to Hero -- Archetypal Analysis in R.",
-		"Journal of Statistical Software, 30(8), 1-23, 2009.",
-		"http://www.jstatsoft.org/v30/i08/")
+bibentry("Article",
+	title = "From {S}pider-{M}an to {H}ero -- Archetypal Analsis in {R}",
+	author = "Manuel J. A. Eugster and Friedrich Leisch",
+	journal = "Journal of Statistical Software",
+	year = 2009,
+	volume = 30,
+	number = 8,
+	pages = "1--23",
+	doi = "10.18637/jss.v030.i08",
 )
 
-
-citEntry(entry="Article",
-	title="Weighted and Robust Archetypal Analysis",
-	author=personList(as.person("Manuel J. A. Eugster"),
-		as.person("Friedrich Leisch")),
-  journal="Computational Statistics and Data Analysis",
-  year = "2011",
-  volume = "55",
-  number = "3",
+bibentry("Article",
+	title = "Weighted and Robust Archetypal Analysis",
+	author = "Manuel J. A. Eugster and Friedrich Leisch",
+  journal = "Computational Statistics and Data Analysis",
+  year = 2011,
+  volume = 55,
+  number = 3,
   pages = "1215--1225",
-  url = "http://www.sciencedirect.com/science/article/pii/S0167947310004056",
-  preprint = "http://epub.ub.uni-muenchen.de/11498/",
-
-	header="To cite weighted and robust archetypes in publications use:",
-	
-	textVersion=paste("Manuel J. A. Eugster and Friedrich Leisch.",
-		"Weighted and Robust Archetypal Analysis",
-    "Computational Statistics and Data Analysis, 55(3):1215-1225, 2011.",
-		"http://www.sciencedirect.com/science/article/pii/S0167947310004056")
+  doi = "10.1016/j.csda.2010.10.017",
 )
 
-
-citEntry(entry="TechReport",
-  title="Probabilistic Archetypal Analysis",
-	author=personList(as.person("Sohan Seth"),
-    as.person("Manuel J. A. Eugster")),
-  institution="arXiv.org",
-  year = "2014",
-  url = "http://arxiv.org/abs/1312.7604",
-
-	header="To cite the simplex visualization in publications use:",
-	
-	textVersion=paste("Sohan Seth and Manuel J. A. Eugster.",
-		" Probabilistic Archetypal Analysis",
-    "arXiv.org, 2014.",
-		"http://arxiv.org/abs/1312.7604")
+bibentry("Article",
+  title = "Probabilistic Archetypal Analysis",
+	author = "Sohan Seth and Manuel J. A. Eugster",
+	journal = "Machine Learning",
+	year = 2016,
+	volume = 102,
+	pages = "85--113",
+	doi = "10.1007/s10994-015-5498-8",
 )
-

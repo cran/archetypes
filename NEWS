@@ -1,4 +1,11 @@
 
+Changes in archetypes version 2.2-0.2
+
+  o Fixed CRAN check.
+  
+  o Updated CITATION file.
+  
+
 Changes in archetypes version 2.2-0
 
   o Added simplex plot with examples and reference.

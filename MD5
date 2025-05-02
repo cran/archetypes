@@ -1,6 +1,6 @@
-8030d9bf749fa08236bc05e0101ce406 *DESCRIPTION
+890b51187c82185f65085063be38f28d *DESCRIPTION
 11378d1357a51dd066bf438e971cfb5e *NAMESPACE
-8c0461d4a041b7493b8d086b838b1a68 *NEWS
+d09080dc9e3717340bbe68238e7bce33 *NEWS
 7a73ec81dc84f99d91ef521ecc3fa5a9 *R/archetypes-barplot.R
 982c0420760e4ccbd4972701ff3fddc8 *R/archetypes-class.R
 c8a978006c7763b0e15bf1d06140bdf2 *R/archetypes-kit-blocks.R
@@ -14,12 +14,15 @@ a6fbd222ef224aa3381a007a1849a454 *R/archetypes-screeplot.R
 7d455a1d5dedf2f59fe5ec887184391e *R/archetypes-step.R
 09db2ce3c0b89167cf9fa75504bdab01 *R/archetypes-weighted.R
 26d695fb01b414452d17094cbcfc2b1b *R/archetypes-xyplot.R
+beeedca899aab911eb20816d380b8ea7 *R/body.R
 ef126eef5d300dda869167fcca6eb26a *R/generics.R
 117fa08068c6f1ed6e19e29b7385501e *R/memento.R
 5b121bc41fa7b9df059e1a0536236f78 *R/pcplot.R
 4f039672ddf2e1bc563e63f710bd738b *R/simplex-pot.R
+8eab9820bdd6a5067ecbd170aa7ba65a *R/skel.R
 12d9000b3c8a9de419a821e911c43697 *R/skeletonplot.R
-c20efda49cb5e877f9f44d1a4467516d *build/vignette.rds
+e85a2c9de746ec4692d6f1d448a1d290 *R/toy.R
+44304a58cdcf3a58afb57b5c10dfcd9c *build/vignette.rds
 257f0618f65fbb5674c666e7c18c424c *data/body.RData
 1bcc22b398799e641a9c25265acb0f45 *data/skel.RData
 4ee901daaa8dc16ba4380dffac0d7bca *data/toy.RData
@@ -27,10 +30,10 @@ c20efda49cb5e877f9f44d1a4467516d *build/vignette.rds
 80a6e916435f304824cd6f22ef1fa160 *demo/robust-ozone.R
 cd840461ccd49a4ef81a5519f3fd792b *demo/robust-simulation.R
 f4f73b759f4038203242be73127227dd *demo/robust-toy.R
-b5a9d79590a3cdf3620808e1739a7c81 *inst/CITATION
+014b4b40bc712c9857b2291690e5f77f *inst/CITATION
 a0017c804e37c7500695e5e8cb53ed8b *inst/doc/archetypes.R
 a74b45a89f950c82fb16e86c22cd999f *inst/doc/archetypes.Rnw
-2c8b646d90b0b2f87fab87f754369707 *inst/doc/archetypes.pdf
+4105ff76dc0b8637d90dc2b55cf9847c *inst/doc/archetypes.pdf
 1f6f65d34f0f915cbfd4a41cf5b12c33 *inst/opt/robust-simulation/sim1.RData
 a0a97d1f1404b3c782834dad34c9f8e0 *inst/opt/robust-simulation/sim2.RData
 20fc9d663e2ddb08ea0e65cf70b25323 *man/archetypes-generics.Rd
@@ -38,7 +41,7 @@ a0a97d1f1404b3c782834dad34c9f8e0 *inst/opt/robust-simulation/sim2.RData
 26b7ac338d390857a6294474e256148a *man/archetypesFamily.Rd
 c9dc69239a54196a3f30dea857050b6e *man/archmap.Rd
 2d63b11399e05cb210bb9ac7ad299c5a *man/archmap_projections.Rd
-cc6ab875e74c5905513834707285eb11 *man/as.archetypes.Rd
+88869f99f2f3804d710477ce5f5b99a4 *man/as.archetypes.Rd
 eb800beb2f42184f815a191ea4a851ee *man/barplot.archetypes.Rd
 87d12c0e8fcc2b1b7962f23458f8fbbd *man/bestModel.Rd
 6daa6852cf0bfe1371ee08d5cb9e302c *man/body.Rd
